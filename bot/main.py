@@ -11,7 +11,7 @@ def handle(msg):
 
     print 'Got command: %s' % command
     #Greetings
-    greetings=['hi','hey','hello','howdy','HI','Hi','Hey','HOWDY','Howdy','Hello','HELLO','hoy','👋']
+    greetings=['hi','hai','hey','hello','howdy','HI','Hi','Hey','HOWDY','Howdy','Hello','HELLO','hoy','👋']
     reply_greetings=['howdy','How are you','Hi','Hey','Howdy','Hello','👋']
 
 
