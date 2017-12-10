@@ -9,11 +9,11 @@ from telepot.loop import MessageLoop
 
 
 def handle(msg):
-    chat_id = msg['chat']['id']
+    chat_id  = msg['chat']['id']
     username = msg['from']['username']
-    command = msg['text']
-    command = command.lower()
-    command = command.encode('utf-8')
+    command  = msg['text']
+    command  = command.lower()
+    command  = command.encode('utf-8')
     print 'Got command: %s' % command
     # Greetings
     greetings = ['hi', 'hai', 'hey', 'hello',
