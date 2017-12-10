@@ -10,6 +10,7 @@ from telepot.loop import MessageLoop
 
 def handle(msg):
     chat_id = msg['chat']['id']
+    username = msg['from']['username']
     command = msg['text']
     command = command.lower()
     command = command.encode('utf-8')
@@ -28,6 +29,10 @@ def handle(msg):
         greet = reply_greetings[idx]
         bot.sendMessage(chat_id, greet)
 
+    elif command == 'do you know me':
+        bot.sendMessage(
+            chat_id, 'You are my Friend')
+        bot.sendMessage(chat_id, username)
     elif command == '❤️':
         bot.sendMessage(
             chat_id, 'Love You to  😁')
