@@ -1,6 +1,6 @@
 # CuBot
 - [ ] @sabeelmuttil, **setup common database for crawler and bot**
-- [x] @sabeelmuttil, **Find a framework or initialize php scripts**
+- [x] @sabeelmuttil, **Find a framework or initialize python scripts**
 - [ ] @muhammadanaswayanad, **prepare python crawler**
 - [x] @muhammadanaswayanad, **initialize bot**
 
