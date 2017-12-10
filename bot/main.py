@@ -14,6 +14,7 @@ def handle(msg):
     command  = msg['text']
     command  = command.lower()
     command  = command.encode('utf-8')
+    print 'username : %s' % username
     print 'Got command: %s' % command
     # Greetings
     greetings = ['hi', 'hai', 'hey', 'hello',
@@ -33,17 +34,20 @@ def handle(msg):
         bot.sendMessage(
             chat_id, 'You are my Friend')
         bot.sendMessage(chat_id, username)
+
     elif command == '❤️':
         bot.sendMessage(
-            chat_id, 'Love You to  😁')
+            chat_id, '😳 No....')
+        bot.sendMessage(
+            chat_id, 'Let me be your friend  🤝')
 
     elif command == 'i love you':
         bot.sendMessage(
-            chat_id, 'Love You to  😁')
+            chat_id, 'Let me be your friend  🤝')
 
     elif command == 'love you':
         bot.sendMessage(
-            chat_id, 'Love You to  😁')
+            chat_id, 'Let me be your friend  🤝')
 
     elif command == 'what can you do':
         bot.sendMessage(
