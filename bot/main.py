@@ -32,8 +32,10 @@ def handle(msg):
     msg2 = ['❤️', 'i love you', 'love you', 'know me',
                  'what is my name', 'who am i', 'my name']
     reply_msg2 = ['😳 No.... ', 'Let me be your friend  🤝 ',
-                       'Love you to... ', 'I am your personal assistant  ', 'What the hell you talking ', '❤️ ', 'You are my Friend ', 'sorry ! i am not interested  ']
+                       'Love you to... ', 'I am your personal assistant. I cant love you ', 'What the hell you talking ', '❤️ ', 'You are my Friend ', 'sorry ! i am not interested  ']
 
+    msg3 = ['made ❤️ with', 'who developed you', 'developers', 'makers',
+                 'who maked you', 'developer team', 'my name']
     if command in greetings:
         idx = randint(0, reply_greetings.__len__() - 1)
         print 'selecting index ' + str(idx)
@@ -56,19 +58,13 @@ def handle(msg):
         greet = reply_msg2[idx]
         bot.sendMessage(chat_id, greet)
 
-    elif command == '':
-        bot.sendMessage(chat_id, '')
-
-    elif command == '':
-        bot.sendMessage(chat_id, '')
-
     elif command == 'what can you do':
         bot.sendMessage(
             chat_id, 'I can help you to access notifications and circulars from the website of Calicut University')
         bot.sendMessage(
             chat_id, 'Believe it or not i can download your hallticket/results for you 😁')
 
-    elif command == 'who developed you':
+    elif command in msg3 :
         bot.sendMessage(chat_id, 'Well, that is a good thing to ask')
         bot.sendMessage(
             chat_id, 'Team Four_BitZz developed me as their final year project, They are awesome !')
