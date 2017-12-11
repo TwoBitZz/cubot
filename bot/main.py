@@ -31,7 +31,7 @@ def handle(msg):
         bot.sendMessage(chat_id, greet)
 
     elif command == 'do you know me':
-        bot.sendMessage(chat_id, 'You are my Friend'+username)
+        bot.sendMessage(chat_id, 'You are my Friend '+username)
 
     elif command == '/start':
         bot.sendMessage(
