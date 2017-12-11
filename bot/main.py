@@ -31,13 +31,11 @@ def handle(msg):
         bot.sendMessage(chat_id, greet)
 
     elif command == 'do you know me':
-        bot.sendMessage(chat_id, 'You are my Friend')
-        bot.sendMessage(chat_id, username)
+        bot.sendMessage(chat_id, 'You are my Friend'+username)
 
     elif command == '/start':
         bot.sendMessage(
             chat_id, 'Hello '+username)
-        bot.sendMessage(chat_id, username)
 
     elif command == '❤️':
         bot.sendMessage(chat_id, '😳 No....')
