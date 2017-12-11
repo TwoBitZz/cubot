@@ -24,28 +24,43 @@ def handle(msg):
     reply_greetings = ['howdy', 'How are you',
                        'Hi', 'Hey', 'Howdy', 'Hello', '👋']
 
+    msg1 = ['do you know me', 'you know me', 'do you know my name', 'know me',
+                 'what is my name', 'who am i', 'my name']
+    reply_msg1 = ['howdy ', 'How are you ',
+                       'Hi ', 'Hey ', 'Howdy ', 'Hello ', 'You are my Friend ', '👋 ']
+
+    msg2 = ['❤️', 'i love you', 'love you', 'know me',
+                 'what is my name', 'who am i', 'my name']
+    reply_msg2 = ['😳 No.... ', 'Let me be your friend  🤝 ',
+                       'Love you to... ', 'I am your personal assistant  ', 'What the hell you talking ', '❤️ ', 'You are my Friend ', 'sorry ! i am not interested  ']
+
     if command in greetings:
         idx = randint(0, reply_greetings.__len__() - 1)
         print 'selecting index ' + str(idx)
         greet = reply_greetings[idx]
         bot.sendMessage(chat_id, greet)
 
-    elif command == 'do you know me':
-        bot.sendMessage(chat_id, 'You are my Friend '+username)
+    elif command in msg1:
+        idx = randint(0, reply_msg1.__len__() - 1)
+        print 'selecting index ' + str(idx)
+        greet = reply_msg1[idx]
+        bot.sendMessage(chat_id, greet + username)
 
     elif command == '/start':
         bot.sendMessage(
             chat_id, 'Hello '+username)
 
-    elif command == '❤️':
-        bot.sendMessage(chat_id, '😳 No....')
-        bot.sendMessage(chat_id, 'Let me be your friend  🤝')
+    elif command in msg2:
+        idx = randint(0, reply_msg2.__len__() - 1)
+        print 'selecting index ' + str(idx)
+        greet = reply_msg2[idx]
+        bot.sendMessage(chat_id, greet)
 
-    elif command == 'i love you':
-        bot.sendMessage(chat_id, 'Let me be your friend  🤝')
+    elif command == '':
+        bot.sendMessage(chat_id, '')
 
-    elif command == 'love you':
-        bot.sendMessage(chat_id, 'Let me be your friend  🤝')
+    elif command == '':
+        bot.sendMessage(chat_id, '')
 
     elif command == 'what can you do':
         bot.sendMessage(
