@@ -10,7 +10,7 @@ from telepot.loop import MessageLoop
 
 def handle(msg):
     chat_id = msg['chat']['id']
-    username = msg['from']['username']
+    username = msg['from']['first_name']
     command = msg['text']
     command = command.lower()
     command = command.encode('utf-8')
