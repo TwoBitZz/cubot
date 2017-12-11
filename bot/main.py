@@ -29,13 +29,21 @@ def handle(msg):
     reply_msg1 = ['howdy ', 'How are you ',
                        'Hi ', 'Hey ', 'Howdy ', 'Hello ', 'You are my Friend ', '👋 ']
 
-    msg2 = ['❤️', 'i love you', 'love you', 'know me',
-                 'what is my name', 'who am i', 'my name']
+    msg2 = ['❤️', 'i love you', 'love you', 'love u', 'i love u']
     reply_msg2 = ['😳 No.... ', 'Let me be your friend  🤝 ',
                        'Love you to... ', 'I am your personal assistant. I cant love you ', 'What the hell you talking ', '❤️ ', 'You are my Friend ', 'sorry ! i am not interested  ']
 
-    msg3 = ['made ❤️ with', 'who developed you', 'developers', 'makers',
-                 'who maked you', 'developer team', 'my name']
+    msg3 = ['made ❤️ with', 'who developed you', 'who developed you?',
+                'who developed you ?', 'developers',
+                'makers', 'who maked you', 'developer team']
+
+    msg4 = ['how are you', 'how hope you', 'how do you do',
+                'how are u', 'how hope u', 'how do u do',
+                'how are you ?', 'how hope you ?', 'how do you do ?',
+                'how are u ?', 'how hope u ?', 'how do u do ?'
+                'how are you?', 'how hope you?', 'how do you do?',
+                'how are u?', 'how hope u?', 'how do u do?']
+
     if command in greetings:
         idx = randint(0, reply_greetings.__len__() - 1)
         print 'selecting index ' + str(idx)
@@ -68,6 +76,9 @@ def handle(msg):
         bot.sendMessage(chat_id, 'Well, that is a good thing to ask')
         bot.sendMessage(
             chat_id, 'Team Four_BitZz developed me as their final year project, They are awesome !')
+    elif command in msg3 :
+        bot.sendMessage(chat_id, 'I am Fine.')
+        bot.sendMessage(chat_id, 'And You')
 
     else:
         bot.sendMessage(chat_id, 'that was Confusing')
