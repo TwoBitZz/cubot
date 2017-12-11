@@ -9,17 +9,17 @@ from telepot.loop import MessageLoop
 
 
 def handle(msg):
-    chat_id  = msg['chat']['id']
+    chat_id = msg['chat']['id']
     username = msg['from']['username']
-    command  = msg['text']
-    command  = command.lower()
-    command  = command.encode('utf-8')
+    command = msg['text']
+    command = command.lower()
+    command = command.encode('utf-8')
     print 'username : %s' % username
     print 'Got command: %s' % command
     # Greetings
     greetings = ['hi', 'hai', 'hey', 'hello',
                  'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
-                 'howdy', 'oi', 'hoy','ai', 'hei', 'hloo', 'hii',
+                 'howdy', 'oi', 'hoy', 'ai', 'hei', 'hloo', 'hii',
                               'kooi', 'hallo', 'hlo', 'hy', '👋']
     reply_greetings = ['howdy', 'How are you',
                        'Hi', 'Hey', 'Howdy', 'Hello', '👋']
@@ -31,23 +31,18 @@ def handle(msg):
         bot.sendMessage(chat_id, greet)
 
     elif command == 'do you know me':
-        bot.sendMessage(
-            chat_id, 'You are my Friend')
+        bot.sendMessage(chat_id, 'You are my Friend')
         bot.sendMessage(chat_id, username)
 
     elif command == '❤️':
-        bot.sendMessage(
-            chat_id, '😳 No....')
-        bot.sendMessage(
-            chat_id, 'Let me be your friend  🤝')
+        bot.sendMessage(chat_id, '😳 No....')
+        bot.sendMessage(chat_id, 'Let me be your friend  🤝')
 
     elif command == 'i love you':
-        bot.sendMessage(
-            chat_id, 'Let me be your friend  🤝')
+        bot.sendMessage(chat_id, 'Let me be your friend  🤝')
 
     elif command == 'love you':
-        bot.sendMessage(
-            chat_id, 'Let me be your friend  🤝')
+        bot.sendMessage(chat_id, 'Let me be your friend  🤝')
 
     elif command == 'what can you do':
         bot.sendMessage(
@@ -62,7 +57,8 @@ def handle(msg):
 
     else:
         bot.sendMessage(chat_id, 'that was Confusing')
-        bot.sendMessage(chat_id, 'sorry! njan kooduthal padichondirikukayanu') # please tranclate
+        # done translating
+        bot.sendMessage(chat_id, 'Sorry! iam still a learning kid! ')
         print 'Advanced request from user'
         print 'calling handler...'
 
