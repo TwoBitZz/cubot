@@ -8,8 +8,6 @@ from random import randint
 from telepot.loop import MessageLoop
 import MySQLdb
 
-db = MySQLdb.connect(host="localhost", user="root", passwd="", db="cubot")
-cur = db.cursor()
 
 def handle(msg):
     chat_id = msg['chat']['id']
@@ -19,6 +17,11 @@ def handle(msg):
     command = command.encode('utf-8')
     print 'username : %s' % username
     print 'Got command: %s' % command
+
+    db = MySQLdb.connect(host="localhost", user="root", passwd="", db="cubot")
+    #create a cursor for the select
+    cur = db.cursor()
+
     # Greetings
     greetings = ['hi', 'hai', 'hey', 'hello',
                  'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
@@ -64,6 +67,9 @@ def handle(msg):
     elif command == '/start':
         bot.sendMessage(
             chat_id, 'Hello ' + username)
+        #execute an sql query
+        cur.execute("INSERT INTO users(chatid,name) VALUES('chat_id','username')"
+
 
     elif command in msg2:
         idx = randint(0, reply_msg2.__len__() - 1)
@@ -95,6 +101,12 @@ def handle(msg):
 
 bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
 MessageLoop(bot, handle).run_as_thread()
+
+# close the cursor
+cur.close()
+
+# close the connection
+db.close ()
 
 print 'I am listening ...'
 
