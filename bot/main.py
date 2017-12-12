@@ -1,12 +1,13 @@
 # -*- coding: latin-1 -*-
 # -*- coding: utf-8 -*-
+#!/usr/bin/python
 import time
 import random
 import datetime
 import telepot
 from random import randint
 from telepot.loop import MessageLoop
-import MySQLdb
+import mysql.connector as mariadb
 
 
 def handle(msg):
@@ -18,7 +19,7 @@ def handle(msg):
     print 'username : %s' % username
     print 'Got command: %s' % command
 
-    db = MySQLdb.connect(host="localhost", user="root", passwd="", db="cubot")
+    db = mariadb.connect(user="root", password="", database="cubot")
     #create a cursor for the select
     cur = db.cursor()
 
@@ -67,9 +68,8 @@ def handle(msg):
     elif command == '/start':
         bot.sendMessage(
             chat_id, 'Hello ' + username)
-        #execute an sql query
-        cur.execute("INSERT INTO users(chatid,name) VALUES('chat_id','username')"
-
+        cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)",(chat_id,username))
+        db.commit()
 
     elif command in msg2:
         idx = randint(0, reply_msg2.__len__() - 1)
@@ -98,15 +98,14 @@ def handle(msg):
         print 'Advanced request from user'
         print 'calling handler...'
 
+# close the cursor
+#cur.close()
+# close the connection
+#db.close ()
 
 bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
 MessageLoop(bot, handle).run_as_thread()
 
-# close the cursor
-cur.close()
-
-# close the connection
-db.close ()
 
 print 'I am listening ...'
 
