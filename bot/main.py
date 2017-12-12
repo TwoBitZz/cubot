@@ -6,7 +6,10 @@ import datetime
 import telepot
 from random import randint
 from telepot.loop import MessageLoop
+import MySQLdb
 
+db = MySQLdb.connect(host="localhost", user="root", passwd="", db="cubot")
+cur = db.cursor()
 
 def handle(msg):
     chat_id = msg['chat']['id']
