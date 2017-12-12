@@ -34,7 +34,9 @@ def handle(msg):
 
     msg2 = ['❤️', 'i love you', 'love you', 'love u', 'i love u']
     reply_msg2 = ['😳 No.... ', 'Let me be your friend  🤝 ',
-                  'Love you to... ', 'I am your personal assistant. I cant love you ', 'What the hell are you talking about ? ', '❤️ ', 'You are my Friend ', 'sorry ! i am not interested  ']
+                  'Love you to... ', 'I am your personal assistant. I cant love you ',
+                  'What the hell are you talking about ? ', '❤️ ', 'You are my Friend ',
+                  'sorry ! i am not interested  ']
 
     msg3 = ['made ❤️ with', 'who developed you', 'who developed you?',
             'who developed you ?', 'developers',
@@ -79,7 +81,7 @@ def handle(msg):
         bot.sendMessage(chat_id, 'Well, that is a good thing to ask')
         bot.sendMessage(
             chat_id, 'Team Four_BitZz developed me as their final year project, They are awesome !')
-    elif command in msg3:
+    elif command in msg4:
         bot.sendMessage(chat_id, 'I am Fine.')
         bot.sendMessage(chat_id, 'And You')
 
