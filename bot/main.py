@@ -7,10 +7,7 @@ import datetime
 import telepot
 from random import randint
 from telepot.loop import MessageLoop
-<<<<<<< HEAD
 import mysql.connector as mariadb
-=======
->>>>>>> 31efba309e14bf0c0ee6a24e66a5675d1061e5a4
 
 
 def handle(msg):
@@ -21,14 +18,11 @@ def handle(msg):
     command = command.encode('utf-8')
     print 'username : %s' % username
     print 'Got command: %s' % command
-<<<<<<< HEAD
 
     db = mariadb.connect(user="root", password="", database="cubot")
     #create a cursor for the select
     cur = db.cursor()
 
-=======
->>>>>>> 31efba309e14bf0c0ee6a24e66a5675d1061e5a4
     # Greetings
     greetings = ['hi', 'hai', 'hey', 'hello',
                  'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
@@ -74,13 +68,8 @@ def handle(msg):
     elif command == '/start':
         bot.sendMessage(
             chat_id, 'Hello ' + username)
-<<<<<<< HEAD
         cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)",(chat_id,username))
         db.commit()
-=======
-        # execute an sql query
-        # cur.execute("INSERT INTO users(chatid,name) VALUES('chat_id','username')"
->>>>>>> 31efba309e14bf0c0ee6a24e66a5675d1061e5a4
 
     elif command in msg2:
         idx = randint(0, reply_msg2.__len__() - 1)
@@ -117,14 +106,6 @@ def handle(msg):
 bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
 MessageLoop(bot, handle).run_as_thread()
 
-<<<<<<< HEAD
-=======
-# close the cursor
-# cur.close()
-
-# close the connection
-# db.close()
->>>>>>> 31efba309e14bf0c0ee6a24e66a5675d1061e5a4
 
 print 'I am listening ...'
 
