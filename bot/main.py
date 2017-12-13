@@ -20,7 +20,7 @@ def handle(msg):
     print 'Got command: %s' % command
 
     db = mariadb.connect(user="root", password="", database="cubot")
-    #create a cursor for the select
+    # create a cursor for the select
     cur = db.cursor()
 
     # Greetings
@@ -68,7 +68,8 @@ def handle(msg):
     elif command == '/start':
         bot.sendMessage(
             chat_id, 'Hello ' + username)
-        cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)",(chat_id,username))
+        cur.execute(
+            "INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
         db.commit()
 
     elif command in msg2:
@@ -99,9 +100,10 @@ def handle(msg):
         print 'calling handler...'
 
 # close the cursor
-#cur.close()
+# cur.close()
 # close the connection
 #db.close ()
+
 
 bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
 MessageLoop(bot, handle).run_as_thread()
