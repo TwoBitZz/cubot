@@ -12,13 +12,38 @@ import mysql.connector as mariadb
 
 
 def handle(msg):
-    chat_id = msg['chat']['id']
+    content_type, chat_type, chat_id = telepot.glance(msg)
+    #chat_id = msg['chat']['id']
     username = msg['from']['first_name']
-    command = msg['text']
-    command = command.lower()
-    command = command.encode('utf-8')
+    if content_type == 'text':
+        command = msg['text']
+        command = command.lower()
+        command = command.encode('utf-8')
+
+    elif content_type == 'sticker':
+        command = msg['sticker']
+
+    elif content_type == 'document':
+        command = msg['document']
+
+    elif content_type == 'photo':
+        command = msg['photo']
+
+    elif content_type == 'video_note':
+        command = msg['video_note']
+
+    elif content_type == 'audio':
+        command = msg['audio']
+
+    elif content_type == 'video':
+        command = msg['video']
+
+    else:
+        command = msg['document']
+
     print 'username : %s' % username
     print 'Got command: %s' % command
+    print 'Got type: %s' % content_type
 
     db = mariadb.connect(user="root", password="", database="cubot")
     # create a cursor for the select
