@@ -15,7 +15,7 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     #chat_id = msg['chat']['id']
     username = msg['from']['first_name']
- 
+
     print 'username : %s' % username
     print 'Got type: %s' % content_type
 
@@ -26,30 +26,40 @@ def handle(msg):
 
     elif content_type == 'sticker':
         command = msg['sticker']
+        bot.sendMessage(chat_id, 'Aww! looks good')
 
     elif content_type == 'document':
         command = msg['document']
+        bot.sendMessage(chat_id, 'I cant read it right now')
 
     elif content_type == 'voice':
         command = msg['voice']
+        bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
 
     elif content_type == 'location':
         command = msg['location']
+        bot.sendMessage(chat_id, 'what are you doing there ?')
 
     elif content_type == 'photo':
         command = msg['photo']
+        bot.sendMessage(chat_id, 'This is awesome 😘')
 
     elif content_type == 'video_note':
         command = msg['video_note']
+        bot.sendMessage(chat_id, 'you are awesome 😘')
 
     elif content_type == 'audio':
         command = msg['audio']
+        bot.sendMessage(chat_id, 'feeling good 😊')
 
     elif content_type == 'video':
         command = msg['video']
+        bot.sendMessage(chat_id, 'Iam not able to understand this video 😊')
 
     else:
         command = msg['document']
+        bot.sendMessage(
+            chat_id, 'Iam not able to understand this document 😊')
 
     print 'Got command: %s' % command
 
