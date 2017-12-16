@@ -15,7 +15,7 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     #chat_id = msg['chat']['id']
     username = msg['from']['first_name']
-
+ 
     print 'username : %s' % username
     print 'Got type: %s' % content_type
 
