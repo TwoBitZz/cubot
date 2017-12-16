@@ -15,6 +15,10 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     #chat_id = msg['chat']['id']
     username = msg['from']['first_name']
+
+    print 'username : %s' % username
+    print 'Got type: %s' % content_type
+
     if content_type == 'text':
         command = msg['text']
         command = command.lower()
@@ -25,6 +29,12 @@ def handle(msg):
 
     elif content_type == 'document':
         command = msg['document']
+
+    elif content_type == 'voice':
+        command = msg['voice']
+
+    elif content_type == 'location':
+        command = msg['location']
 
     elif content_type == 'photo':
         command = msg['photo']
@@ -41,9 +51,7 @@ def handle(msg):
     else:
         command = msg['document']
 
-    print 'username : %s' % username
     print 'Got command: %s' % command
-    print 'Got type: %s' % content_type
 
     db = mariadb.connect(user="root", password="", database="cubot")
     # create a cursor for the select
@@ -103,6 +111,9 @@ def handle(msg):
         print 'selecting index ' + str(idx)
         greet = reply_msg2[idx]
         bot.sendMessage(chat_id, greet)
+
+    elif content_type == 'location':
+        bot.sendMessage(chat_id, 'ohh! that is ur location nice')
 
     elif command == 'what can you do':
         bot.sendMessage(
