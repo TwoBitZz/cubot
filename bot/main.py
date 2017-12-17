@@ -27,7 +27,9 @@ def handle(msg):
         command = msg['text']
         command = command.lower()
         command = command.encode('utf-8')
+
         positive = ['fine', 'good', 'k', 'ok', 'alright', 'cool', 'nice']
+
         greetings = ['hi', 'hai', 'hey', 'hello',
                      'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
                      'howdy', 'oi', 'hoy', 'ai', 'hei', 'hloo', 'hii',
