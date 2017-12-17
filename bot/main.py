@@ -143,11 +143,6 @@ def handle(msg):
 
     print 'Got command: %s' % command
 
-# close the cursor
-# cur.close()
-# close the connection
-#db.close ()
-
 
 bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
 MessageLoop(bot, handle).run_as_thread()
@@ -157,3 +152,7 @@ print 'I am listening ...'
 
 while 1:
     time.sleep(10)
+# close the curso
+cur.close()
+# close the connection
+db.close()
