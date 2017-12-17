@@ -27,8 +27,7 @@ def handle(msg):
         command = msg['text']
         command = command.lower()
         command = command.encode('utf-8')
-
-        # Greetings
+        positive = ['fine', 'good', 'k', 'ok', 'alright', 'cool', 'nice']
         greetings = ['hi', 'hai', 'hey', 'hello',
                      'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
                      'howdy', 'oi', 'hoy', 'ai', 'hei', 'hloo', 'hii',
@@ -69,6 +68,11 @@ def handle(msg):
             print 'selecting index ' + str(idx)
             greet = reply_msg1[idx]
             bot.sendMessage(chat_id, greet + username)
+        elif command in positive:
+            idx = randint(0, reply_msg1.__len__() - 1)
+            print 'selecting index ' + str(idx)
+            greet = positive[idx]
+            bot.sendMessage(chat_id, greet)
 
         elif command == '/start':
             bot.sendMessage(
@@ -95,7 +99,7 @@ def handle(msg):
                 chat_id, 'Team Four_BitZz developed me as their final year project, They are awesome !')
         elif command in msg4:
             bot.sendMessage(chat_id, 'I am Fine.')
-            bot.sendMessage(chat_id, 'And You')
+            bot.sendMessage(chat_id, 'What about you')
 
         else:
             bot.sendMessage(chat_id, 'that was Confusing')
