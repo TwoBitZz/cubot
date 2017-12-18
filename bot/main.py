@@ -28,7 +28,8 @@ def handle(msg):
         command = command.lower()
         command = command.encode('utf-8')
 
-        positive = ['fine', 'good', 'k', 'ok', 'alright', 'cool', 'nice']
+        positive = ['fine', 'good', 'k', 'ok',
+                    'alright', 'cool', 'nice', 's', 'yes']
 
         greetings = ['hi', 'hai', 'hey', 'hello',
                      'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
@@ -46,18 +47,18 @@ def handle(msg):
         reply_msg2 = ['😳 No.... ', 'Let me be your friend  🤝 ',
                       'Love you to... ', 'I am your personal assistant. I cant love you ',
                       'What the hell are you talking about ? ', '❤️ ', 'You are my Friend ',
-                      'sorry ! i am not interested  ']
+                      'sorry ! i am not interested']
 
         msg3 = ['made ❤️ with', 'who developed you', 'who developed you?',
                 'who developed you ?', 'developers',
-                'makers', 'who maked you', 'developer team']
+                'makers', 'who made you', 'developer team']
 
-        msg4 = ['how are you', 'how hope you', 'how do you do',
-                'how are u', 'how hope u', 'how do u do',
-                'how are you ?', 'how hope you ?', 'how do you do ?',
-                'how are u ?', 'how hope u ?', 'how do u do ?'
-                'how are you?', 'how hope you?', 'how do you do?',
-                'how are u?', 'how hope u?', 'how do u do?']
+        msg4 = ['how are you', 'how is life', 'how do you do',
+                'how are u', 'how r u', 'how do u do',
+                'how are you ?', 'how r you ?', 'how do you do ?',
+                'how are u ?', 'how is life ?', 'how do u do ?'
+                'how are you?', 'how do you do?',
+                'how are u?', 'how is life?', 'how do u do?']
 
         if command in greetings:
             idx = randint(0, positive.__len__() - 1)
