@@ -9,9 +9,9 @@ import telepot
 from random import randint
 from textblob import TextBlob  # sentiment analysis
 from telepot.loop import MessageLoop
-import mysql.connector as mariadb
+import mysql.connector as mysqldb
 
-db = mariadb.connect(user="root", password="", database="cubot")
+db = mysqldb.connect(user="root", password="", database="cubot")
 # create a cursor for the select
 cur = db.cursor()
 

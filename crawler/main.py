@@ -4,9 +4,9 @@
 
 import time
 import datetime
-import mysql.connector as mariadb
+import mysql.connector as mysql
 # database connection
-db = mariadb.connect(user="root", password="", database="cubot")
+db = mysqldb.connect(user="root", password="", database="cubot")
 # create a cursor for the select
 cur = db.cursor()
 
