@@ -7,6 +7,7 @@ import random
 import datetime
 import telepot
 from random import randint
+from textblob import TextBlob  # sentiment analysis
 from telepot.loop import MessageLoop
 import mysql.connector as mariadb
 
@@ -17,7 +18,7 @@ cur = db.cursor()
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    #chat_id = msg['chat']['id']
+    # chat_id = msg['chat']['id']
     username = msg['from']['first_name']
 
     print 'username : %s' % username
@@ -107,7 +108,6 @@ def handle(msg):
 
         else:
             bot.sendMessage(chat_id, 'that was Confusing')
-            # done translating
             bot.sendMessage(chat_id, 'Sorry! iam still a learning kid! ')
             print 'Advanced request from user'
             print 'calling handler...'
