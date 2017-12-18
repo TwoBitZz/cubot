@@ -27,7 +27,9 @@ def handle(msg):
         command = msg['text']
         command = command.lower()
         command = command.encode('utf-8')
+
         positive = ['fine', 'good', 'k', 'ok', 'alright', 'cool', 'nice']
+
         greetings = ['hi', 'hai', 'hey', 'hello',
                      'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
                      'howdy', 'oi', 'hoy', 'ai', 'hei', 'hloo', 'hii',
@@ -58,7 +60,7 @@ def handle(msg):
                 'how are u?', 'how hope u?', 'how do u do?']
 
         if command in greetings:
-            idx = randint(0, reply_greetings.__len__() - 1)
+            idx = randint(0, positive.__len__() - 1)
             print 'selecting index ' + str(idx)
             greet = reply_greetings[idx]
             bot.sendMessage(chat_id, greet)
@@ -68,6 +70,7 @@ def handle(msg):
             print 'selecting index ' + str(idx)
             greet = reply_msg1[idx]
             bot.sendMessage(chat_id, greet + username)
+
         elif command in positive:
             idx = randint(0, reply_msg1.__len__() - 1)
             print 'selecting index ' + str(idx)
