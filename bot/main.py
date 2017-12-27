@@ -10,7 +10,10 @@ from random import randint
 from textblob import TextBlob  # sentiment analysis
 from telepot.loop import MessageLoop
 import mysql.connector as mysqldb
-
+from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
+                          ConversationHandler)
+import requests
 db = mysqldb.connect(user="root", password="", database="cubot")
 # create a cursor for the select
 cur = db.cursor()
@@ -80,8 +83,7 @@ def handle(msg):
             bot.sendMessage(chat_id, greet)
 
         elif command == '/start':
-            bot.sendMessage(
-                chat_id, 'Hello ' + username)
+            bot.sendMessage(chat_id, 'Hello ' + username)
             cur.execute(
                 "INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
             db.commit()
@@ -121,14 +123,24 @@ def handle(msg):
         bot.sendMessage(chat_id, 'I cant read it right now')
 
     elif content_type == 'voice':
-        command = msg['voice']
+        command = msg['voice']['id']
         bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
+
+        # getFile
+        # Downloading a file is straightforward
+        # Returns a File object
+
+        file_info = bot.getFile(command)
+
+        file = requests.get('https://api.telegram.org/file/bot{0}/{1}'.format(
+            '351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA', file_info.file_path))
 
     elif content_type == 'location':
         command = msg['location']
         bot.sendMessage(chat_id, 'what are you doing there ?')
 
     elif content_type == 'photo':
+        bot.getFile()
         command = msg['photo']
         bot.sendMessage(chat_id, 'This is awesome 😘')
 
