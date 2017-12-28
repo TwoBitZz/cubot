@@ -13,13 +13,21 @@ cur = db.cursor()
 import BeautifulSoup as soup
 import urllib2
 from urllib2 import urlopen as ureq
+print('Trying to load notifications...')
 uocnot = 'http://www.universityofcalicut.info/index2.php?option=com_content&task=view&id=744'
 uocwebclient = ureq(uocnot)
+print('[Done]')
+print('Trying to load timetable')
 uoctimetable = 'http://www.universityofcalicut.info/index2.php?option=com_content&task=view&id=745'
-uocnotdata = ureq(uocnot).read()
+soupnot = uocnotdata = ureq(uocnot).read()
+print('[Done]')
 uocwebclient.close()
-uocnotcont = soup(uocnotdata, 'html.parser')
-st = uocnotcont.td.string
-print(st)
+print(uocnotdata)
+type(uocnotdata)
+tds = soupnot.find_all('td')
+for t in tds:
+    names = t.contents[0]
+    docLink = link.get('href')
+print(names)
 #cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
 # db.commit()
