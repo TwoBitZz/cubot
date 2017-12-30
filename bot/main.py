@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
+import sys
 import time
+import json
 import random
 import datetime
 import telepot
+import wget
+import urllib
 from random import randint
 from textblob import TextBlob  # sentiment analysis
 from telepot.loop import MessageLoop
@@ -60,12 +64,12 @@ def handle(msg):
         msg4 = ['how are you', 'how is life', 'how do you do',
                 'how are u', 'how r u', 'how do u do',
                 'how are you ?', 'how r you ?', 'how do you do ?',
-                'how are u ?', 'how is life ?', 'how do u do ?'
+                'how are u ?', 'how is life ?', 'how do u do ?',
                 'how are you?', 'how do you do?',
                 'how are u?', 'how is life?', 'how do u do?']
 
         if command in greetings:
-            idx = randint(0, positive.__len__() - 1)
+            idx = randint(0, reply_greetings.__len__() - 1)
             print 'selecting index ' + str(idx)
             greet = reply_greetings[idx]
             bot.sendMessage(chat_id, greet)
@@ -123,17 +127,29 @@ def handle(msg):
         bot.sendMessage(chat_id, 'I cant read it right now')
 
     elif content_type == 'voice':
-        command = msg['voice']['id']
+        command = msg['voice']
+        # take a file id
+        if 'file_id' in command:
+            fid = command['file_id']
+
+        # request for file id...
+        url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
+        wget.download(url, '/tmp/temp.html')
+
+        # request for file path
+        response = urllib.urlopen(url)
+        data = json.loads(response.read())
+        data = data['result']
+        # take a file path
+
+        if 'file_path' in data:
+            fpath = data['file_path']
+
+        # download voice
+        url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
+        wget.download(
+            url1, '/home/sabeelmuttil/Documents/cubot/down/' + fpath + '.wav')
         bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
-
-        # getFile
-        # Downloading a file is straightforward
-        # Returns a File object
-
-        file_info = bot.getFile(command)
-
-        file = requests.get('https://api.telegram.org/file/bot{0}/{1}'.format(
-            '351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA', file_info.file_path))
 
     elif content_type == 'location':
         command = msg['location']
