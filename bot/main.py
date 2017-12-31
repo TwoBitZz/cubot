@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
+import os
 import sys
 import time
 import json
@@ -144,11 +145,15 @@ def handle(msg):
 
         if 'file_path' in data:
             fpath = data['file_path']
+        print ('file saved in /tmp/cubot/' + fpath + '.wav')
 
         # download voice
         url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
+        dir = os.path.dirname('/tmp/cubot/voice/')
+        if not os.path.exists(dir):
+            os.makedirs(dir)
         wget.download(
-            url1, '/home/sabeelmuttil/Documents/cubot/down/' + fpath + '.wav')
+            url1, '/tmp/cubot/' + fpath + '.wav')
         bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
 
     elif content_type == 'location':
