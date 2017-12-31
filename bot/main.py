@@ -147,13 +147,16 @@ def handle(msg):
             fpath = data['file_path']
         print ('file saved in /tmp/cubot/' + fpath + '.wav')
 
-        # download voice
-        url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
+        # directory make...
         dir = os.path.dirname('/tmp/cubot/voice/')
         if not os.path.exists(dir):
             os.makedirs(dir)
+
+        # download voice
+        url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
         wget.download(
             url1, '/tmp/cubot/' + fpath + '.wav')
+        # sent message..
         bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
 
     elif content_type == 'location':
