@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import urllib2
 import requests
 from urllib2 import urlopen as ureq
+notificationdocs = []
 print('Trying to load notifications...')
 uocnot = 'http://www.universityofcalicut.info/index2.php?option=com_content&task=view&id=744'
 r = requests.get(uocnot)
@@ -28,9 +29,11 @@ tds = page_soupy.find_all('td')
 print('Page title says : ' + page_soupy.title.string)
 page_soupy.find_all('a')
 for link in page_soupy.findAll('a'):
+    # got links to pdfs
     print('found link ' + link.get('href'))
-    temp = link.find('a').text()
-    # contains links to pdfs
-# print(page_soupy.get_text())
+    notificationdocs.append(link.get('href'))
+    temp = link.string
+    print temp
+
 #cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
 # db.commit()
