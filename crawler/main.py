@@ -27,8 +27,9 @@ page_soupy = BeautifulSoup(page_text, 'html.parser')
 tds = page_soupy.find_all('td')
 print('Page title says : ' + page_soupy.title.string)
 page_soupy.find_all('a')
-for link in page_soupy.find_all('a'):
+for link in page_soupy.findAll('a'):
     print('found link ' + link.get('href'))
+    temp = link.find('a').text()
     # contains links to pdfs
 # print(page_soupy.get_text())
 #cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
