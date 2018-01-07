@@ -42,6 +42,8 @@ for link in page_soupy.findAll('a'):
         temp = link.string
     except:
         print 'unicode error'
+        print 'trying plan B'
+        temp = link.text
     print temp
 
 #cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
