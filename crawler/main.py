@@ -45,6 +45,6 @@ for link in page_soupy.findAll('a'):
         print 'trying plan B'
         temp = link.text
     print temp
-
+# add links and text to database from those arrays
 #cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
 # db.commit()
