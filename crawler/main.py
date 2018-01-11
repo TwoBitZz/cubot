@@ -1,8 +1,8 @@
-
+# -*- coding: utf-8 -*-
 #!/usr/bin/python
 from __future__ import unicode_literals
 import time
-import datetime
+from datetime import datetime
 import mysql.connector as mysql
 # database connection
 db = mysql.connect(user="root", password="", database="cubot")
@@ -36,15 +36,20 @@ for link in page_soupy.findAll('a'):
     print('found link ' + link.get('href'))
     notificationdocs.append(link.get('href'))
     temp = u'null'
-    print type(temp)
+    # print type(temp)
     notifications.append(link.string)
     try:
         temp = link.string
+        print temp
     except:
         print 'unicode error'
         print 'trying plan B'
-        temp = link.text
-    print temp
+        temp = temp.encode('latin_1')
+        print temp
 # add links and text to database from those arrays
-#cur.execute("INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
-# db.commit()
+timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+for items in notifications:
+    text = notifications[items]
+    cur.execute(
+        "INSERT INTO cubot.updates (date,text) VALUES (%s,%s)", (timestamp, text))
+db.commit()
