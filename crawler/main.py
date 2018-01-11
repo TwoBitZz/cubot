@@ -49,6 +49,20 @@ for link in page_soupy.findAll('a'):
 # add links and text to database from those arrays
 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 for items in notifications:
-    text = items
-    cur.execute("INSERT INTO cubot.updates (date,text) VALUES (%s,%s)", (timestamp, str(text))
-db.commit()
+    try:
+        text = items
+        cur.execute("INSERT INTO cubot.updates (date,text) VALUES (%s,%s)",
+                    (str(timestamp), text))
+        db.commit()
+    except:
+        text = u'sample'
+
+        text = items.encode('latin_1')
+        text.strip()
+        cur.execute(
+            "INSERT IGNORE INTO cubot.updates (date,text) VALUES (%s,%s)", (str(timestamp), text))
+        db.commit()
+# close the curso
+cur.close()
+# close the connection
+db.close()
