@@ -26,10 +26,10 @@ cur = db.cursor()
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    # chat_id = msg['chat']['id']
-    username = msg['from']['first_name']
-
-    print 'username : %s' % username
+    username = msg['from']['username']
+    first_name = msg['from']['first_name']
+    last_name = msg['from']['last_name']
+    print 'first_name : %s' % first_name
     print 'Got type: %s' % content_type
 
     if content_type == 'text':
@@ -79,7 +79,7 @@ def handle(msg):
             idx = randint(0, reply_msg1.__len__() - 1)
             print 'selecting index ' + str(idx)
             greet = reply_msg1[idx]
-            bot.sendMessage(chat_id, greet + username)
+            bot.sendMessage(chat_id, greet + first_name)
 
         elif command in positive:
             idx = randint(0, reply_msg1.__len__() - 1)
@@ -88,9 +88,9 @@ def handle(msg):
             bot.sendMessage(chat_id, greet)
 
         elif command == '/start':
-            bot.sendMessage(chat_id, 'Hello ' + username)
+            bot.sendMessage(chat_id, 'Hello ' + first_name)
             cur.execute(
-                "INSERT INTO cubot.user(chatid,name) VALUES (%s,%s)", (chat_id, username))
+                "INSERT INTO cubot.user(chatid,name,first_name,last_name,username) VALUES (%s,%s,%s,%s)", (chat_id, first_name, last_name, username))
             db.commit()
 
         elif command in msg2:
