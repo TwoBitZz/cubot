@@ -4,16 +4,17 @@ from __future__ import unicode_literals
 import time
 from datetime import datetime
 import mysql.connector as mysql
-# database connection
-db = mysql.connect(user="root", password="", database="cubot")
-# create a cursor for the select
-cur = db.cursor()
 import bs4
 from bs4 import BeautifulSoup
 from unidecode import unidecode
 import urllib2
 import requests
 from urllib2 import urlopen as ureq
+
+# database connection
+db = mysql.connect(user="root", password="", database="cubot")
+cur = db.cursor()
+
 notificationdocs = []
 notifications = []
 print('Trying to load notifications...')
@@ -36,31 +37,32 @@ for link in page_soupy.findAll('a'):
     print('found link ' + link.get('href'))
     notificationdocs.append(link.get('href'))
     temp = u'null'
-    # print type(temp)
     notifications.append(link.string)
     try:
         temp = link.string
         print temp
     except:
-        print 'unicode error'
-        print 'trying plan B'
+        print 'fixing unicode error'
         temp = temp.encode('latin_1')
         print temp
 # add links and text to database from those arrays
 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+i = 0
 for items in notifications:
+    doclink = notificationdocs[i]
+    i = i + 1
     try:
         text = items
-        cur.execute("INSERT INTO cubot.updates (date,text) VALUES (%s,%s)",
-                    (str(timestamp), text))
+        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
+            timestamp), text, 'Notification', str(doclink)))
         db.commit()
     except:
         text = u'sample'
 
         text = items.encode('latin_1')
         text.strip()
-        cur.execute(
-            "INSERT IGNORE INTO cubot.updates (date,text) VALUES (%s,%s)", (str(timestamp), text))
+        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
+            timestamp), text, 'Notification', str(doclink)))
         db.commit()
 # close the curso
 cur.close()
