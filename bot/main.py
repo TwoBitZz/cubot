@@ -29,7 +29,7 @@ def handle(msg):
     username = msg['from']['username']
     first_name = msg['from']['first_name']
     last_name = msg['from']['last_name']
-    print 'first_name : %s' % first_name
+    print 'first_name : %s' % first_name + ' ' + last_name
     print 'Got type: %s' % content_type
 
     if content_type == 'text':
