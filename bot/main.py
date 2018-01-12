@@ -26,9 +26,18 @@ cur = db.cursor()
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    username = msg['from']['username']
-    first_name = msg['from']['first_name']
-    last_name = msg['from']['last_name']
+    try:
+        username = msg['from']['username']
+    except:
+        username = 'not set'
+    try:
+        first_name = msg['from']['first_name']
+    except:
+        first_name = 'not set'
+    try:
+        last_name = msg['from']['last_name']
+    except:
+        last_name = 'not set'
     print 'first_name : %s' % first_name + ' ' + last_name
     print 'Got type: %s' % content_type
 
@@ -90,7 +99,7 @@ def handle(msg):
         elif command == '/start':
             bot.sendMessage(chat_id, 'Hello ' + first_name)
             cur.execute(
-                "INSERT INTO cubot.user(chatid,name,first_name,last_name,username) VALUES (%s,%s,%s,%s)", (chat_id, first_name, last_name, username))
+                "INSERT INTO cubot.user(chatid,first_name,last_name,username) VALUES (%s,%s,%s,%s)", (chat_id, first_name, last_name, username))
             db.commit()
 
         elif command in msg2:
