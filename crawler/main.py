@@ -22,14 +22,11 @@ uocnot = 'http://www.universityofcalicut.info/index2.php?option=com_content&task
 r = requests.get(uocnot)
 print('Trying to load timetable')
 uoctimetable = 'http://www.universityofcalicut.info/index2.php?option=com_content&task=view&id=745'
-soupnot = html_doc = ureq(uocnot).read()
 print('[Done]')
 # html_doc contains webpage
-soup = BeautifulSoup(html_doc, 'html.parser')
 page_text = unidecode(r.text)
 page_text = r.text.encode('ascii', 'ignore')
 page_soupy = BeautifulSoup(page_text, 'html.parser')
-tds = page_soupy.find_all('td')
 print('Page title says : ' + page_soupy.title.string)
 page_soupy.find_all('a')
 for link in page_soupy.findAll('a'):
@@ -58,13 +55,14 @@ for items in notifications:
         db.commit()
     except:
         text = u'sample'
-
         text = items.encode('latin_1')
         text.strip()
         cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
             timestamp), text, 'Notification', str(doclink)))
         db.commit()
-# close the curso
+
+
+# close the cursor
 cur.close()
 # close the connection
 db.close()
