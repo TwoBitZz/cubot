@@ -38,7 +38,9 @@ def handle(msg):
         last_name = msg['from']['last_name']
     except:
         last_name = 'not set'
-    print 'first_name : %s' % first_name + ' ' + last_name
+    first_name.encode('latin_1')
+    last_name.encode('latin_1')
+    print 'first_name : %s' % first_name + ' last_name : ' + last_name
     print 'Got type: %s' % content_type
 
     if content_type == 'text':
