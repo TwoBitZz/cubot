@@ -40,7 +40,9 @@ def handle(msg):
         last_name = msg['from']['last_name']
     except:
         last_name = 'not set'
-    print 'first_name : %s' % first_name + ' ' + last_name
+    first_name.encode('latin_1')
+    last_name.encode('latin_1')
+    print 'first_name : %s' % first_name + ' last_name : ' + last_name
     print 'Got type: %s' % content_type
 
     if content_type == 'text':
@@ -101,7 +103,7 @@ def handle(msg):
         elif command == '/start':
             bot.sendMessage(chat_id, 'Hello ' + first_name)
             cur.execute(
-                "INSERT INTO cubot.user(chatid,first_name,last_name,username) VALUES (%s,%s,%s,%s)", (chat_id, first_name, last_name, username))
+                "INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username) VALUES (%s,%s,%s,%s)", (chat_id, first_name, last_name, username))
             db.commit()
 
         elif command in msg2:

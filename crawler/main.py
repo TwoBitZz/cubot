@@ -22,14 +22,10 @@ uocnot = 'http://www.universityofcalicut.info/index2.php?option=com_content&task
 r = requests.get(uocnot)
 print('Trying to load timetable')
 uoctimetable = 'http://www.universityofcalicut.info/index2.php?option=com_content&task=view&id=745'
-soupnot = html_doc = ureq(uocnot).read()
 print('[Done]')
-# html_doc contains webpage
-soup = BeautifulSoup(html_doc, 'html.parser')
 page_text = unidecode(r.text)
 page_text = r.text.encode('ascii', 'ignore')
 page_soupy = BeautifulSoup(page_text, 'html.parser')
-tds = page_soupy.find_all('td')
 print('Page title says : ' + page_soupy.title.string)
 page_soupy.find_all('a')
 for link in page_soupy.findAll('a'):
@@ -58,13 +54,58 @@ for items in notifications:
         db.commit()
     except:
         text = u'sample'
-
         text = items.encode('latin_1')
         text.strip()
         cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
             timestamp), text, 'Notification', str(doclink)))
         db.commit()
-# close the curso
+
+# timetable
+timetable = []
+timedocs = []
+print('Trying to load timetable')
+uoctimetable = 'http://www.universityofcalicut.info/index2.php?option=com_content&task=view&id=745'
+r = requests.get(uoctimetable)
+print('[Done]')
+page_text = unidecode(r.text)
+page_text = r.text.encode('ascii', 'ignore')
+page_soupy = BeautifulSoup(page_text, 'html.parser')
+print('Page title says : ' + page_soupy.title.string)
+page_soupy.find_all('a')
+for link in page_soupy.findAll('a'):
+    # got links to pdfs
+    print('found link ' + link.get('href'))
+    timedocs.append(link.get('href'))
+    temp = u'null'
+    timetable.append(link.string)
+    try:
+        temp = link.string
+        print temp
+    except:
+        print 'fixing unicode error'
+        temp = temp.encode('latin_1')
+        print temp
+# add links and text to database from those arrays
+timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+i = 0
+for items in timetable:
+    doclink = timedocs[i]
+    i = i + 1
+    try:
+        text = items
+        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
+            timestamp), text, 'Timetable', str(doclink)))
+        db.commit()
+    except:
+        text = u'sample'
+        text = items.encode('latin_1')
+        text.strip()
+        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
+            timestamp), text, 'Timetable', str(doclink)))
+        db.commit()
+
+
+# close the cursor
 cur.close()
 # close the connection
 db.close()
