@@ -10,9 +10,11 @@ import random
 import datetime
 import telepot
 import wget
+import wave
+import speech_recognition as sr
+from subprocess import call
 import urllib
 from random import randint
-from textblob import TextBlob  # sentiment analysis
 from telepot.loop import MessageLoop
 import mysql.connector as mysqldb
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
@@ -154,7 +156,9 @@ def handle(msg):
 
         if 'file_path' in data:
             fpath = data['file_path']
-        print ('file saved in /tmp/cubot/' + fpath + '.wav')
+        fullpath = '/tmp/cubot/' + fpath + '.ogg'
+        fullpath.encode('latin_1')
+        print ('file saved in ' + fullpath)
 
         # directory make...
         dir = os.path.dirname('/tmp/cubot/voice/')
@@ -164,40 +168,56 @@ def handle(msg):
         # download voice
         url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
         wget.download(
-            url1, '/tmp/cubot/' + fpath + '.wav')
-        # sent message..
-        bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
+            url1, fullpath)
+
+        # convert .ogg to .wave
+        call(["ffmpeg", "-i", fullpath, "/tmp/cubot/" + fpath + ".wav"])
+        os.remove(fullpath)
+        # convert .wave to .ogg
+        AUDIO_FILE = "/tmp/cubot/" + fpath + ".wav"
+        # use the audio file as the audio source
+        r = sr.Recognizer()
+        with sr.AudioFile(AUDIO_FILE) as source:
+            audio = r.record(source)  # read the entire audio file
+        try:
+             stt = r.recognize_google(audio)
+        except sr.UnknownValueError:
+            stt = "CU_Bot could not understand audio"
+        except sr.RequestError as e:
+            print(
+                stt="Could not request results from CU_Bot service. sorry for the interruption."
+        handle(stt)
 
     elif content_type == 'location':
-        command = msg['location']
+        command=msg['location']
         bot.sendMessage(chat_id, 'what are you doing there ?')
 
     elif content_type == 'photo':
         bot.getFile()
-        command = msg['photo']
+        command=msg['photo']
         bot.sendMessage(chat_id, 'This is awesome 😘')
 
     elif content_type == 'video_note':
-        command = msg['video_note']
+        command=msg['video_note']
         bot.sendMessage(chat_id, 'you are awesome 😘')
 
     elif content_type == 'audio':
-        command = msg['audio']
+        command=msg['audio']
         bot.sendMessage(chat_id, 'feeling good 😊')
 
     elif content_type == 'video':
-        command = msg['video']
+        command=msg['video']
         bot.sendMessage(chat_id, 'Iam not able to understand this video 😊')
 
     else:
-        command = msg['document']
+        command=msg['document']
         bot.sendMessage(
             chat_id, 'Iam not able to understand this file!')
 
     print 'Got command: %s' % command
 
 
-bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
+bot=telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
 MessageLoop(bot, handle).run_as_thread()
 
 
