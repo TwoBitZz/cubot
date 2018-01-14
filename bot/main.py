@@ -101,7 +101,7 @@ def handle(msg):
         elif command == '/start':
             bot.sendMessage(chat_id, 'Hello ' + first_name)
             cur.execute(
-                "INSERT INTO cubot.user(chatid,first_name,last_name,username) VALUES (%s,%s,%s,%s)", (chat_id, first_name, last_name, username))
+                "INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username) VALUES (%s,%s,%s,%s)", (chat_id, first_name, last_name, username))
             db.commit()
 
         elif command in msg2:
