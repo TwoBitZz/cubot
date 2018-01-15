@@ -218,15 +218,6 @@ def handle(msg):
 
         bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
 
-
-<< << << < HEAD
-
-
->>>>>> > before discard
-== == == =
->>>>>> > before discard
->>>>>> > 8bbee189bb168b6a4d170f65a693e55dadab5cd9
-
     elif content_type == 'location':
         command = msg['location']
         bot.sendMessage(chat_id, 'what are you doing there ?')
