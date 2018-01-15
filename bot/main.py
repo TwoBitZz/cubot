@@ -188,14 +188,37 @@ def handle(msg):
     elif content_type == 'document':
         command = msg['document']
         bot.sendMessage(chat_id, 'I cant read it right now')
-
+# voice recoganizing...
     elif content_type == 'voice':
         command = msg['voice']
         # take a file id
         if 'file_id' in command:
             fid = command['file_id']
+<<<<<<< current
         rply = voice(fid, chat_id, first_name, last_name, username)
         bot.sendMessage(chat_id, rply)
+=======
+
+        # request for file id...
+        url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
+        wget.download(url, '/tmp/temp.html')
+
+        # request for file path
+        response = urllib.urlopen(url)
+        data = json.loads(response.read())
+        data = data['result']
+        # take a file path
+
+        if 'file_path' in data:
+            fpath = data['file_path']
+
+        # download voice
+        url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
+        wget.download(
+            url1, '/home/sabeelmuttil/Documents/cubot/down/' + fpath + '.wav')
+
+        bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
+>>>>>>> before discard
 
     elif content_type == 'location':
         command = msg['location']
