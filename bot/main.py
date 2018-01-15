@@ -198,6 +198,29 @@ def handle(msg):
         reply = voice(fid, chat_id, first_name, last_name, username)
         bot.sendMessage(chat_id, reply)
 
+<<<<<<< HEAD
+=======
+        # request for file id...
+        url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
+        wget.download(url, '/tmp/temp.html')
+
+        # request for file path
+        response = urllib.urlopen(url)
+        data = json.loads(response.read())
+        data = data['result']
+        # take a file path
+
+        if 'file_path' in data:
+            fpath = data['file_path']
+
+        # download voice
+        url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
+        wget.download(
+            url1, '/home/sabeelmuttil/Documents/cubot/down/' + fpath + '.wav')
+
+        bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
+
+>>>>>>> ec353b791b768beb00ae6ed9801cd44ca7f2221d
     elif content_type == 'location':
         command = msg['location']
         bot.sendMessage(chat_id, 'what are you doing there ?')
