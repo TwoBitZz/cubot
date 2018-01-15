@@ -2,26 +2,27 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-import os
-import sys
-import time
-import json
-import random
-import datetime
-import telepot
-import wget
-import wave
-import speech_recognition as sr
-import urllib
-from subprocess import call
-from random import randint
-from telepot.loop import MessageLoop
-import mysql.connector as mysqldb
+import os  # do some os function
+import sys  # ^^^^
+import time  # purpose of random generating
+import json  # reading json files or objects
+import random  # rantom number generating
+import datetime  # -----
+import telepot  # handle msgs
+import wget  # downloading some files
+import wave  # reading wave files
+import speech_recognition as sr  # purpose is converting voice to text
+import urllib  # url request
+from subprocess import call  # do some os commands
+from random import randint  # random integer generations
+from telepot.loop import MessageLoop  # handle recieved msg and sent msg
+import mysql.connector as mysqldb  # connecing program to mysqldb
+# sent to reply keyboard
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
-import requests
 
+# connecing to db
 db = mysqldb.connect(user="root", password="", database="cubot")
 # create a cursor for the select
 cur = db.cursor()
@@ -38,6 +39,7 @@ def voice(fid, chat_id, first_name, last_name, username):
     response = urllib.urlopen(url)
     data = json.loads(response.read())
     data = data['result']
+
     # take a file path
 
     if 'file_path' in data:
@@ -54,14 +56,14 @@ def voice(fid, chat_id, first_name, last_name, username):
 
     # download voice
     url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
-    wget.download(
-        url1, fullpath)
+    wget.download(url1, fullpath)
+
     # convert .ogg to .wave
     call(["ffmpeg", "-i", fullpath, "/tmp/cubot/" + fpath + ".wav"])
     os.remove(fullpath)
+
     # convert .wave to .txt
     AUDIO_FILE = "/tmp/cubot/" + fpath + ".wav"
-    # use the audio file as the audio source
     r = sr.Recognizer()
     with sr.AudioFile(AUDIO_FILE) as source:
         audio = r.record(source)  # read the entire audio file
