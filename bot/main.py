@@ -148,6 +148,7 @@ def text(command, chat_id, first_name, last_name, username):
     elif command in msg4:
         greet = 'I am Fine. \n\n What about you'
     else:
+        print 'message : ' + command
         greet = 'that was Confusing \n\n Sorry! iam still a learning kid! '
         print 'Advanced request from user'
         print 'calling handler...'
