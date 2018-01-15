@@ -194,9 +194,16 @@ def handle(msg):
         # take a file id
         if 'file_id' in command:
             fid = command['file_id']
+<<<<<<< HEAD
 
         reply = voice(fid, chat_id, first_name, last_name, username)
         bot.sendMessage(chat_id, reply)
+=======
+<<<<<<< current
+        rply = voice(fid, chat_id, first_name, last_name, username)
+        bot.sendMessage(chat_id, rply)
+=======
+>>>>>>> 8bbee189bb168b6a4d170f65a693e55dadab5cd9
 
         # request for file id...
         url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
@@ -217,9 +224,13 @@ def handle(msg):
             url1, '/home/sabeelmuttil/Documents/cubot/down/' + fpath + '.wav')
 
         bot.sendMessage(chat_id, 'You have a beautiful voice 😘')
+<<<<<<< HEAD
 
 
 >>>>>> > before discard
+=======
+>>>>>>> before discard
+>>>>>>> 8bbee189bb168b6a4d170f65a693e55dadab5cd9
 
     elif content_type == 'location':
         command = msg['location']
