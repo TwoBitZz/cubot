@@ -67,13 +67,15 @@ def voice(fid, chat_id, first_name, last_name, username):
         audio = r.record(source)  # read the entire audio file
     try:
         stt = r.recognize_google(audio)
+        command = text(stt, chat_id, first_name, last_name, username)
+        return(command)
     except sr.UnknownValueError:
         stt = "CU_Bot could not understand audio"
+        return(stt)
     except sr.RequestError as e:
         stt = "Could not request results from CU_Bot service. sorry for the interruption."
-    print 'voice text is : ' + stt
-    command = text(stt, chat_id, first_name, last_name, username)
-    return(command)
+        return(stt)
+
 
 # text msg checking
 
@@ -196,6 +198,7 @@ def handle(msg):
             fid = command['file_id']
 
         reply = voice(fid, chat_id, first_name, last_name, username)
+        print 'voice text is : ' + reply
         bot.sendMessage(chat_id, reply)
 
     elif content_type == 'location':
