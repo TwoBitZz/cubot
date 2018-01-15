@@ -12,7 +12,6 @@ import telepot
 import wget
 import wave
 import speech_recognition as sr
-from subprocess import call
 import urllib
 from random import randint
 from telepot.loop import MessageLoop
