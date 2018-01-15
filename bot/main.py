@@ -28,7 +28,7 @@ cur = db.cursor()
 # voice convertion
 
 
-def voice(fid):
+def voice(fid, chat_id, first_name, last_name, username):
     # request for file id...
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
@@ -71,13 +71,15 @@ def voice(fid):
     except sr.RequestError as e:
         stt = "Could not request results from CU_Bot service. sorry for the interruption."
     print 'voice text is : ' + stt
-    command = text(stt)
+    command = text(stt, chat_id, first_name, last_name, username)
     return(command)
 
 # text msg checking
 
 
-def text(command):
+def text(command, chat_id, first_name, last_name, username):
+    command = command.lower()
+    command = command.encode('utf-8')
     positive = ['fine', 'good', 'k', 'ok',
                 'alright', 'cool', 'nice', 's', 'yes']
 
@@ -173,9 +175,7 @@ def handle(msg):
     #---------------------------------------
     if content_type == 'text':
         command = msg['text']
-        command = command.lower()
-        command = command.encode('utf-8')
-        text(command)
+        command = text(command, chat_id, first_name, last_name, username)
         bot.sendMessage(chat_id, command)
 
     elif content_type == 'sticker':
@@ -191,7 +191,7 @@ def handle(msg):
         # take a file id
         if 'file_id' in command:
             fid = command['file_id']
-        fid = voice(fid)
+        fid = voice(fid, chat_id, first_name, last_name, username)
         bot.sendMessage(chat_id, fid)
 
     elif content_type == 'location':
