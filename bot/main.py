@@ -13,13 +13,15 @@ import wget
 import wave
 import speech_recognition as sr
 import urllib
+from subprocess import call
 from random import randint
 from telepot.loop import MessageLoop
 import mysql.connector as mysqldb
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
-                          ConversationHandler)
+from telegram.ext import (Updater, CommandHandler, MessageHandler,
+                          Filters, RegexHandler, ConversationHandler)
 import requests
+
 db = mysqldb.connect(user="root", password="", database="cubot")
 # create a cursor for the select
 cur = db.cursor()
@@ -40,8 +42,9 @@ def voice(fid, chat_id, first_name, last_name, username):
 
     if 'file_path' in data:
         fpath = data['file_path']
+
+    fpath.encode('latin_1')
     fullpath = '/tmp/cubot/' + fpath + '.ogg'
-    fullpath.encode('latin_1')
     print ('file saved in ' + fullpath)
 
     # directory make...
@@ -53,11 +56,10 @@ def voice(fid, chat_id, first_name, last_name, username):
     url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
     wget.download(
         url1, fullpath)
-    fpath.encode('latin_1')
     # convert .ogg to .wave
     call(["ffmpeg", "-i", fullpath, "/tmp/cubot/" + fpath + ".wav"])
     os.remove(fullpath)
-    # convert .wave to .ogg
+    # convert .wave to .txt
     AUDIO_FILE = "/tmp/cubot/" + fpath + ".wav"
     # use the audio file as the audio source
     r = sr.Recognizer()
@@ -167,6 +169,7 @@ def handle(msg):
         last_name = msg['from']['last_name']
     except:
         last_name = 'not set'
+
     first_name.encode('latin_1')
     last_name.encode('latin_1')
     print 'first_name : %s' % first_name + ' last_name : ' + last_name
@@ -190,8 +193,8 @@ def handle(msg):
         # take a file id
         if 'file_id' in command:
             fid = command['file_id']
-        fid = voice(fid, chat_id, first_name, last_name, username)
-        bot.sendMessage(chat_id, fid)
+        rply = voice(fid, chat_id, first_name, last_name, username)
+        bot.sendMessage(chat_id, rply)
 
     elif content_type == 'location':
         command = msg['location']
