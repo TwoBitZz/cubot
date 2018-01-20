@@ -12,12 +12,13 @@ import telepot  # handle msgs
 import wget  # downloading some files
 import wave  # reading wave files
 import speech_recognition as sr  # purpose is converting voice to text
-import urllib  # url request
+import urllib  # accessing some urls
 from subprocess import call  # do some os commands
 from random import randint  # random integer generations
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
-# sent to reply keyboard
+# sent to reply, keyboard
+
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
