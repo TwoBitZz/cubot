@@ -129,7 +129,7 @@ def text(command, chat_id, first_name, last_name, username):
     positive = ['fine', 'good', 'k', 'ok',
                 'alright', 'cool', 'nice', 's', 'yes']
 
-    greetings = ['hi', 'hai', 'hey', 'hello',
+    greetings = ['hi', 'hai', 'hloii', 'hey', 'hello',
                  'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
                  'howdy', 'oi', 'hoy', 'ai', 'hei', 'hloo', 'hii',
                               'kooi', 'hallo', 'hlo', 'hy', '👋']
