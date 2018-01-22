@@ -151,7 +151,7 @@ def text(command, chat_id, first_name, last_name, username):
             'who developed you ?', 'developers',
             'makers', 'who made you', 'developer team']
 
-    msg4 = ['how are you', 'how is life', 'how do you do',
+    msg4 = ['how are you', 'how r u ?', 'how is life', 'how do you do',
             'how are u', 'how r u', 'how do u do',
             'how are you ?', 'how r you ?', 'how do you do ?',
             'how are u ?', 'how is life ?', 'how do u do ?',
@@ -187,6 +187,9 @@ def text(command, chat_id, first_name, last_name, username):
 
     elif command == 'what can you do':
         greet = 'I can help you to access notifications and circulars from the website of Calicut University \n \nBelieve it or not i can download your hallticket/results for you 😁'
+
+    elif command == 'what is your name':
+        greet = 'I am Calicut University bot \n \n My nick name is CU_Bot 😁'
 
     elif command in msg3:
         greet = 'Well, that is a good thing to ask \n \n Team Four_BitZz developed me as their final year project, They are awesome !'
