@@ -2,22 +2,10 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
-import os  # do some os level functions
+import os  # do some os function
 import sys  # ^^^^
-import time  # random number generation and loop wait settings
+import time  # purpose of random generating
 import json  # reading json files or objects
-import random  # random number generation
-import datetime  # system time and date
-import telepot  # handle messages telegram bot framework
-import wget  # downloading files
-import wave  # read or decode wave files
-import speech_recognition as sr  # voice or speech to text (STT) package
-import urllib  # url request
-from subprocess import call  # to execute external apps through os call
-from random import randint  # random integer generation
-from telepot.loop import MessageLoop  # handle recieved msg and sent msg
-import mysql.connector as mysqldb  # connecing program to mysqldb
-# to sent  reply keyboard
 import random  # rantom number generating
 import datetime  # -----
 import telepot  # handle msgs
@@ -31,7 +19,6 @@ from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 # sent to reply, keyboard
 import nltk  # noun splitter
-
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
@@ -41,16 +28,16 @@ db = mysqldb.connect(user="root", password="", database="cubot")
 # create a cursor for the select
 cur = db.cursor()
 
-# voice conversion
+# voice convertion
 
 
 def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username, date, time):
 
-    # convert .ogg to .wav
+    # convert .ogg to .wave
     call(["ffmpeg", "-i", fullpath, "/tmp/cubot/" + fpath + ".wav"])
     os.remove(fullpath)
 
-    # convert .wav to text speech recognition STT
+    # convert .wave to .txt
     AUDIO_FILE = "/tmp/cubot/" + fpath + ".wav"
     r = sr.Recognizer()
     with sr.AudioFile(AUDIO_FILE) as source:
@@ -61,10 +48,10 @@ def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username, date, 
                        last_name, username, date, time)
         return(command)
     except sr.UnknownValueError:
-        stt = "CUBot was unable to hear what you said!"
+        stt = "CU_Bot could not understand audio"
         return(stt)
     except sr.RequestError as e:
-        stt = "Could not request results from CUBot service. sorry for the interruption."
+        stt = "Could not request results from CU_Bot service. sorry for the interruption."
         # print stt
         return(stt)
 
@@ -79,7 +66,7 @@ def voice(fid, chat_id, first_name, last_name, username, date, time):
     data = json.loads(response.read())
     data = data['result']
 
-    # take the file path
+    # take a file path
 
     if 'file_path' in data:
         fpath = data['file_path']
@@ -88,7 +75,7 @@ def voice(fid, chat_id, first_name, last_name, username, date, time):
     fullpath = '/tmp/cubot/' + fpath + '.ogg'
     print ('file saved in ' + fullpath)
 
-    # make directory.
+    # directory make...
     dir = os.path.dirname('/tmp/cubot/voice/')
     if not os.path.exists(dir):
         os.makedirs(dir)
@@ -102,19 +89,8 @@ def voice(fid, chat_id, first_name, last_name, username, date, time):
     return(reply)
 
 
-<< << << < HEAD
-
-
-def audio(fid, chat_id, first_name, last_name, username):
-
-    # request for file id
-== == == =
-
-
 def audio(fid, chat_id, first_name, last_name, username, date, time):
-
     # request for file id...
->>>>>> > 2aa78c3b849ede43b54d41785da7d0dcfc52b49f
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
 
@@ -123,7 +99,7 @@ def audio(fid, chat_id, first_name, last_name, username, date, time):
     data = json.loads(response.read())
     data = data['result']
 
-    # take the file path
+    # take a file path
     if 'file_path' in data:
         fpath = data['file_path']
 
@@ -131,12 +107,12 @@ def audio(fid, chat_id, first_name, last_name, username, date, time):
     fullpath = '/tmp/cubot/' + fpath
     print ('file saved in ' + fullpath)
 
-    # make directory
+    # directory make...
     dir = os.path.dirname('/tmp/cubot/music/')
     if not os.path.exists(dir):
         os.makedirs(dir)
 
-    # download audio
+    # download voice
     url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
     wget.download(url1, fullpath)
     print 'sucessfully downloaded'
@@ -145,7 +121,7 @@ def audio(fid, chat_id, first_name, last_name, username, date, time):
     return(reply)
 
 
-# Reply to text messages
+# text msg checking
 
 
 def text(command, chat_id, first_name, last_name, username, date, time):
@@ -237,7 +213,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
     return(greet)
 
 
-# main function of bot
+# main function
 
 
 def handle(msg):
@@ -283,10 +259,10 @@ def handle(msg):
         command = msg['document']
         bot.sendMessage(chat_id, 'I cant read it right now')
 
-    # voice recoganisation
+    # voice recoganizing...
     elif content_type == 'voice':
         command = msg['voice']
-        # take the file id
+        # take a file id
         if 'file_id' in command:
             fid = command['file_id']
 
@@ -310,7 +286,7 @@ def handle(msg):
 
     elif content_type == 'audio':
         command = msg['audio']
-        # take the file id
+        # take a file id
         if 'file_id' in command:
             fid = command['file_id']
         reply = audio(fid, chat_id, first_name,
@@ -337,7 +313,7 @@ print 'I am listening ...'
 
 while 1:
     time.sleep(10)
-# close the cursor
+# close the curso
 cur.close()
 # close the connection
 db.close()
