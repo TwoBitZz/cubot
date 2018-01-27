@@ -6,7 +6,6 @@ import os  # do some os level functions
 import sys  # ^^^^
 import time  # random number generation and loop wait settings
 import json  # reading json files or objects
-<<<<<<< HEAD
 import random  # random number generation
 import datetime  # system time and date
 import telepot  # handle messages telegram bot framework
@@ -19,7 +18,6 @@ from random import randint  # random integer generation
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 # to sent  reply keyboard
-=======
 import random  # rantom number generating
 import datetime  # -----
 import telepot  # handle msgs
@@ -33,7 +31,7 @@ from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 # sent to reply, keyboard
 import nltk  # noun splitter
->>>>>>> 2aa78c3b849ede43b54d41785da7d0dcfc52b49f
+
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
@@ -104,13 +102,19 @@ def voice(fid, chat_id, first_name, last_name, username, date, time):
     return(reply)
 
 
-<<<<<<< HEAD
+<< << << < HEAD
+
+
 def audio(fid, chat_id, first_name, last_name, username):
+
     # request for file id
-=======
+== == == =
+
+
 def audio(fid, chat_id, first_name, last_name, username, date, time):
+
     # request for file id...
->>>>>>> 2aa78c3b849ede43b54d41785da7d0dcfc52b49f
+>>>>>> > 2aa78c3b849ede43b54d41785da7d0dcfc52b49f
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
 
