@@ -6,7 +6,7 @@ import os  # do some os function
 import sys  # ^^^^
 import time  # purpose of random generating
 import json  # reading json files or objects
-<<<<<<< current
+<< << << < current
 import random  # rantom number generating
 import datetime  # -----
 import telepot  # handle msgs
@@ -20,9 +20,8 @@ from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 import nltk  # noun splitter
 nltk.download('punkt')  # to set auto download
-nltk.download('averaged_perceptron_tagger')
 # sent to reply, keyboard
-=======
+== == == =
 import random  # random number generation
 import datetime  # system time and date
 import telepot  # handle messages telegram bot framework
@@ -35,7 +34,7 @@ from random import randint  # random integer generation
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 # to sent  reply keyboard
->>>>>>> before discard
+>>>>>> > before discard
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
