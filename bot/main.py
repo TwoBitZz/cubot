@@ -18,7 +18,7 @@ from random import randint  # random integer generations
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 # sent to reply, keyboard
-
+import nltk  # noun splitter
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
@@ -31,7 +31,7 @@ cur = db.cursor()
 # voice convertion
 
 
-def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username):
+def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username, date, time):
 
     # convert .ogg to .wave
     call(["ffmpeg", "-i", fullpath, "/tmp/cubot/" + fpath + ".wav"])
@@ -44,7 +44,8 @@ def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username):
         audio = r.record(source)  # read the entire audio file
     try:
         stt = r.recognize_google(audio)
-        command = text(stt, chat_id, first_name, last_name, username)
+        command = text(stt, chat_id, first_name,
+                       last_name, username, date, time)
         return(command)
     except sr.UnknownValueError:
         stt = "CU_Bot could not understand audio"
@@ -55,7 +56,7 @@ def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username):
         return(stt)
 
 
-def voice(fid, chat_id, first_name, last_name, username):
+def voice(fid, chat_id, first_name, last_name, username, date, time):
     # request for file id...
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
@@ -88,7 +89,7 @@ def voice(fid, chat_id, first_name, last_name, username):
     return(reply)
 
 
-def audio(fid, chat_id, first_name, last_name, username):
+def audio(fid, chat_id, first_name, last_name, username, date, time):
     # request for file id...
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
@@ -116,14 +117,14 @@ def audio(fid, chat_id, first_name, last_name, username):
     wget.download(url1, fullpath)
     print 'sucessfully downloaded'
     reply = audiotowav(fpath, fullpath, chat_id,
-                       first_name, last_name, username)
+                       first_name, last_name, username, date, time)
     return(reply)
 
 
 # text msg checking
 
 
-def text(command, chat_id, first_name, last_name, username):
+def text(command, chat_id, first_name, last_name, username, date, time):
     command = command.lower()
     command = command.encode('utf-8')
     positive = ['fine', 'good', 'k', 'ok',
@@ -176,8 +177,8 @@ def text(command, chat_id, first_name, last_name, username):
 
     elif command == '/start':
         greet = 'Hello ' + first_name
-        cur.execute("INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username) VALUES (%s,%s,%s,%s)",
-                    (chat_id, first_name, last_name, username))
+        cur.execute("INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username,date,time) VALUES (%s,%s,%s,%s,%s,%s)",
+                    (chat_id, first_name, last_name, username, date, time))
         db.commit()
 
     elif command in msg2:
@@ -196,7 +197,16 @@ def text(command, chat_id, first_name, last_name, username):
     elif command in msg4:
         greet = 'I am Fine. \n\n What about you'
     else:
-        print 'message : ' + command
+        # msg splitting
+        tokens = nltk.word_tokenize(command)
+        tokens = nltk.pos_tag(tokens)
+        tokens = [word for word, pos in tokens
+                  if (pos == 'NN' or pos == 'NNP' or pos == 'NNS' or pos == 'NNPS')]
+        tokens = [x.lower() for x in tokens]
+        #tokens = str(tokens)
+        l = tokens.__len__() - 1
+        print l
+        print 'message : ' + str(tokens)
         greet = 'that was Confusing \n\n Sorry! iam still a learning kid! '
         print 'Advanced request from user'
         print 'calling handler...'
@@ -208,6 +218,12 @@ def text(command, chat_id, first_name, last_name, username):
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
+    #chat_id = msg['chat']['id']
+    datim = msg['date']
+    date = datetime.datetime.fromtimestamp(
+        int(datim)).strftime('%Y-%m-%d')
+    time = datetime.datetime.fromtimestamp(
+        int(datim)).strftime('%H:%M:%S')
     try:
         username = msg['from']['username']
     except:
@@ -223,12 +239,16 @@ def handle(msg):
 
     first_name.encode('latin_1')
     last_name.encode('latin_1')
-    print 'first_name : %s' % first_name + ' last_name : ' + last_name
-    print 'Got type: %s' % content_type
+    print 'chatid      : %s' % chat_id
+    print 'first_name  : %s' % first_name + ' last_name : ' + last_name
+    print 'Got type    : %s' % content_type
+    print 'send date   : %s' % date
+    print 'send time   : %s' % time
     #---------------------------------------
     if content_type == 'text':
         command = msg['text']
-        command = text(command, chat_id, first_name, last_name, username)
+        command = text(command, chat_id, first_name,
+                       last_name, username, date, time)
         bot.sendMessage(chat_id, command)
 
     elif content_type == 'sticker':
@@ -246,7 +266,8 @@ def handle(msg):
         if 'file_id' in command:
             fid = command['file_id']
 
-        reply = voice(fid, chat_id, first_name, last_name, username)
+        reply = voice(fid, chat_id, first_name,
+                      last_name, username, date, time)
         print 'voice text is : ' + reply
         bot.sendMessage(chat_id, reply)
 
@@ -268,7 +289,8 @@ def handle(msg):
         # take a file id
         if 'file_id' in command:
             fid = command['file_id']
-        reply = audio(fid, chat_id, first_name, last_name, username)
+        reply = audio(fid, chat_id, first_name,
+                      last_name, username, date, time)
         bot.sendMessage(chat_id, reply)
 
     elif content_type == 'video':
@@ -280,7 +302,7 @@ def handle(msg):
         bot.sendMessage(
             chat_id, 'Iam not able to understand this file!')
 
-    print 'Got command: %s' % command
+    print 'Got command : %s' % command
 
 
 bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
