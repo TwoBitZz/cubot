@@ -6,6 +6,7 @@ import os  # do some os level functions
 import sys  # ^^^^
 import time  # random number generation and loop wait settings
 import json  # reading json files or objects
+<<<<<<< HEAD
 import random  # random number generation
 import datetime  # system time and date
 import telepot  # handle messages telegram bot framework
@@ -18,6 +19,21 @@ from random import randint  # random integer generation
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 # to sent  reply keyboard
+=======
+import random  # rantom number generating
+import datetime  # -----
+import telepot  # handle msgs
+import wget  # downloading some files
+import wave  # reading wave files
+import speech_recognition as sr  # purpose is converting voice to text
+import urllib  # accessing some urls
+from subprocess import call  # do some os commands
+from random import randint  # random integer generations
+from telepot.loop import MessageLoop  # handle recieved msg and sent msg
+import mysql.connector as mysqldb  # connecing program to mysqldb
+# sent to reply, keyboard
+import nltk  # noun splitter
+>>>>>>> 2aa78c3b849ede43b54d41785da7d0dcfc52b49f
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
@@ -30,7 +46,7 @@ cur = db.cursor()
 # voice conversion
 
 
-def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username):
+def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username, date, time):
 
     # convert .ogg to .wav
     call(["ffmpeg", "-i", fullpath, "/tmp/cubot/" + fpath + ".wav"])
@@ -43,7 +59,8 @@ def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username):
         audio = r.record(source)  # read the entire audio file
     try:
         stt = r.recognize_google(audio)
-        command = text(stt, chat_id, first_name, last_name, username)
+        command = text(stt, chat_id, first_name,
+                       last_name, username, date, time)
         return(command)
     except sr.UnknownValueError:
         stt = "CUBot was unable to hear what you said!"
@@ -54,7 +71,7 @@ def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username):
         return(stt)
 
 
-def voice(fid, chat_id, first_name, last_name, username):
+def voice(fid, chat_id, first_name, last_name, username, date, time):
     # request for file id...
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
@@ -87,8 +104,13 @@ def voice(fid, chat_id, first_name, last_name, username):
     return(reply)
 
 
+<<<<<<< HEAD
 def audio(fid, chat_id, first_name, last_name, username):
     # request for file id
+=======
+def audio(fid, chat_id, first_name, last_name, username, date, time):
+    # request for file id...
+>>>>>>> 2aa78c3b849ede43b54d41785da7d0dcfc52b49f
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
 
@@ -115,20 +137,20 @@ def audio(fid, chat_id, first_name, last_name, username):
     wget.download(url1, fullpath)
     print 'sucessfully downloaded'
     reply = audiotowav(fpath, fullpath, chat_id,
-                       first_name, last_name, username)
+                       first_name, last_name, username, date, time)
     return(reply)
 
 
 # Reply to text messages
 
 
-def text(command, chat_id, first_name, last_name, username):
+def text(command, chat_id, first_name, last_name, username, date, time):
     command = command.lower()
     command = command.encode('utf-8')
     positive = ['fine', 'good', 'k', 'ok',
                 'alright', 'cool', 'nice', 's', 'yes']
 
-    greetings = ['hi', 'hai', 'hey', 'hello',
+    greetings = ['hi', 'hai', 'hloii', 'hey', 'hello',
                  'howdy', 'hi', 'oi', 'hoy', 'hi', 'hai', 'hey', 'hello',
                  'howdy', 'oi', 'hoy', 'ai', 'hei', 'hloo', 'hii',
                               'kooi', 'hallo', 'hlo', 'hy', '👋']
@@ -150,7 +172,7 @@ def text(command, chat_id, first_name, last_name, username):
             'who developed you ?', 'developers',
             'makers', 'who made you', 'developer team']
 
-    msg4 = ['how are you', 'how is life', 'how do you do',
+    msg4 = ['how are you', 'how r u ?', 'how is life', 'how do you do',
             'how are u', 'how r u', 'how do u do',
             'how are you ?', 'how r you ?', 'how do you do ?',
             'how are u ?', 'how is life ?', 'how do u do ?',
@@ -175,8 +197,8 @@ def text(command, chat_id, first_name, last_name, username):
 
     elif command == '/start':
         greet = 'Hello ' + first_name
-        cur.execute("INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username) VALUES (%s,%s,%s,%s)",
-                    (chat_id, first_name, last_name, username))
+        cur.execute("INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username,date,time) VALUES (%s,%s,%s,%s,%s,%s)",
+                    (chat_id, first_name, last_name, username, date, time))
         db.commit()
 
     elif command in msg2:
@@ -187,12 +209,24 @@ def text(command, chat_id, first_name, last_name, username):
     elif command == 'what can you do':
         greet = 'I can help you to access notifications and circulars from the website of Calicut University \n \nBelieve it or not i can download your hallticket/results for you 😁'
 
+    elif command == 'what is your name':
+        greet = 'I am Calicut University bot \n \n My nick name is CU_Bot 😁'
+
     elif command in msg3:
         greet = 'Well, that is a good thing to ask \n \n Team Four_BitZz developed me as their final year project, They are awesome !'
     elif command in msg4:
         greet = 'I am Fine. \n\n What about you'
     else:
-        print 'message : ' + command
+        # msg splitting
+        tokens = nltk.word_tokenize(command)
+        tokens = nltk.pos_tag(tokens)
+        tokens = [word for word, pos in tokens
+                  if (pos == 'NN' or pos == 'NNP' or pos == 'NNS' or pos == 'NNPS')]
+        tokens = [x.lower() for x in tokens]
+        #tokens = str(tokens)
+        l = tokens.__len__() - 1
+        print l
+        print 'message : ' + str(tokens)
         greet = 'that was Confusing \n\n Sorry! iam still a learning kid! '
         print 'Advanced request from user'
         print 'calling handler...'
@@ -204,6 +238,12 @@ def text(command, chat_id, first_name, last_name, username):
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
+    #chat_id = msg['chat']['id']
+    datim = msg['date']
+    date = datetime.datetime.fromtimestamp(
+        int(datim)).strftime('%Y-%m-%d')
+    time = datetime.datetime.fromtimestamp(
+        int(datim)).strftime('%H:%M:%S')
     try:
         username = msg['from']['username']
     except:
@@ -219,12 +259,16 @@ def handle(msg):
 
     first_name.encode('latin_1')
     last_name.encode('latin_1')
-    print 'first_name : %s' % first_name + ' last_name : ' + last_name
-    print 'Got type: %s' % content_type
+    print 'chatid      : %s' % chat_id
+    print 'first_name  : %s' % first_name + ' last_name : ' + last_name
+    print 'Got type    : %s' % content_type
+    print 'send date   : %s' % date
+    print 'send time   : %s' % time
     #---------------------------------------
     if content_type == 'text':
         command = msg['text']
-        command = text(command, chat_id, first_name, last_name, username)
+        command = text(command, chat_id, first_name,
+                       last_name, username, date, time)
         bot.sendMessage(chat_id, command)
 
     elif content_type == 'sticker':
@@ -242,7 +286,8 @@ def handle(msg):
         if 'file_id' in command:
             fid = command['file_id']
 
-        reply = voice(fid, chat_id, first_name, last_name, username)
+        reply = voice(fid, chat_id, first_name,
+                      last_name, username, date, time)
         print 'voice text is : ' + reply
         bot.sendMessage(chat_id, reply)
 
@@ -264,7 +309,8 @@ def handle(msg):
         # take the file id
         if 'file_id' in command:
             fid = command['file_id']
-        reply = audio(fid, chat_id, first_name, last_name, username)
+        reply = audio(fid, chat_id, first_name,
+                      last_name, username, date, time)
         bot.sendMessage(chat_id, reply)
 
     elif content_type == 'video':
@@ -276,7 +322,7 @@ def handle(msg):
         bot.sendMessage(
             chat_id, 'Iam not able to understand this file!')
 
-    print 'Got command: %s' % command
+    print 'Got command : %s' % command
 
 
 bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')

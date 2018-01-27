@@ -10,6 +10,7 @@ from unidecode import unidecode
 import urllib2
 import requests
 from urllib2 import urlopen as ureq
+import nltk  # noun splitter
 
 # database connection
 db = mysql.connect(user="root", password="", database="cubot")
@@ -49,16 +50,26 @@ for items in notifications:
     i = i + 1
     try:
         text = items
-        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
-            timestamp), text, 'Notification', str(doclink)))
+
+        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link,tags) VALUES (%s,%s,%s,%s,%s)", (str(
+            timestamp), text, 'Notification', str(doclink), text))
         db.commit()
     except:
-        text = u'sample'
-        text = items.encode('latin_1')
-        text.strip()
-        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
-            timestamp), text, 'Notification', str(doclink)))
-        db.commit()
+        if items is not None:
+            text = u'sample'
+            text = items.encode('latin_1')
+            text.strip()
+            # noun splitter [tags]
+            tokens = nltk.word_tokenize(text)
+            tagged = nltk.pos_tag(tokens)
+            nouns = [word for word, pos in tagged
+                     if (pos == 'NN' or pos == 'NNP' or pos == 'NNS' or pos == 'NNPS')]
+            tags = [x.lower() for x in nouns]
+            tags = str(tags)
+
+            cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link,tags) VALUES (%s,%s,%s,%s,%s)", (str(
+                timestamp), text, 'Notification', str(doclink), tags))
+            db.commit()
 
 # timetable
 timetable = []
@@ -93,16 +104,25 @@ for items in timetable:
     i = i + 1
     try:
         text = items
-        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
-            timestamp), text, 'Timetable', str(doclink)))
+        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link,tags) VALUES (%s,%s,%s,%s,%s)", (str(
+            timestamp), text, 'Timetable', str(doclink), text))
         db.commit()
     except:
-        text = u'sample'
-        text = items.encode('latin_1')
-        text.strip()
-        cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link) VALUES (%s,%s,%s,%s)", (str(
-            timestamp), text, 'Timetable', str(doclink)))
-        db.commit()
+        if items is not None:
+            text = u'sample'
+            text = items.encode('latin_1')
+            text.strip()
+            # noun splitter [tags]
+            tokens = nltk.word_tokenize(text)
+            tagged = nltk.pos_tag(tokens)
+            nouns = [word for word, pos in tagged
+                     if (pos == 'NN' or pos == 'NNP' or pos == 'NNS' or pos == 'NNPS')]
+            tags = [x.lower() for x in nouns]
+            tags = str(tags)
+
+            cur.execute("INSERT IGNORE INTO cubot.updates (date,text,type,link,tags) VALUES (%s,%s,%s,%s,%s)", (str(
+                timestamp), text, 'Timetable', str(doclink), tags))
+            db.commit()
 
 
 # close the cursor
