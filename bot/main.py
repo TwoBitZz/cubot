@@ -17,8 +17,8 @@ from subprocess import call  # do some os commands
 from random import randint  # random integer generations
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
-# sent to reply, keyboard
 import nltk  # noun splitter
+# sent to reply, keyboard
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
