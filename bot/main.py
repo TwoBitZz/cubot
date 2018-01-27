@@ -18,6 +18,8 @@ from random import randint  # random integer generations
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 import nltk  # noun splitter
+nltk.download('punkt')  # to set auto download
+nltk.download('averaged_perceptron_tagger')
 # sent to reply, keyboard
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
