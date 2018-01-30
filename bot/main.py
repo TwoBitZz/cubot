@@ -239,6 +239,7 @@ def handle(msg):
 
     first_name.encode('latin_1')
     last_name.encode('latin_1')
+    print '\n*-------------------------------------------------------------*\n'
     print 'chatid      : %s' % chat_id
     print 'first_name  : %s' % first_name + ' last_name : ' + last_name
     print 'Got type    : %s' % content_type
