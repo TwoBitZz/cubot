@@ -11,7 +11,8 @@ import urllib2
 import requests
 from urllib2 import urlopen as ureq
 import nltk  # noun splitter
-
+nltk.download('averaged_perceptron_tagger')
+nltk.download('punkt')
 # database connection
 db = mysql.connect(user="root", password="", database="cubot")
 cur = db.cursor()

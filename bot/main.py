@@ -18,7 +18,20 @@ from random import randint  # random integer generations
 from telepot.loop import MessageLoop  # handle recieved msg and sent msg
 import mysql.connector as mysqldb  # connecing program to mysqldb
 import nltk  # noun splitter
-# sent to reply, keyboard
+nltk.download('punkt')  # to set auto download
+nltk.download('averaged_perceptron_tagger')
+import random  # random number generation
+import datetime  # system time and date
+import telepot  # handle messages telegram bot framework
+import wget  # downloading files
+import wave  # read or decode wave files
+import speech_recognition as sr  # voice or speech to text (STT) package
+import urllib  # url request
+from subprocess import call  # to execute external apps through os call
+from random import randint  # random integer generation
+from telepot.loop import MessageLoop  # handle recieved msg and sent msg
+import mysql.connector as mysqldb  # connecing program to mysqldb
+# to sent  reply keyboard
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters, RegexHandler, ConversationHandler)
