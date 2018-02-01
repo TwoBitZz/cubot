@@ -241,7 +241,7 @@ def handle(msg):
         last_name.encode('latin_1')
     except:
         print 'Unable to encode names'
-        first_name = 'Unable to encode'
+        first_name = 'Human'  # could not encode name
         last_name = 'Unable to encode'
     print '\n*-------------------------------------------------------------*\n'
     print 'chatid      : %s' % chat_id
