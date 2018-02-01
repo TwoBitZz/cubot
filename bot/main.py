@@ -236,9 +236,13 @@ def handle(msg):
         last_name = msg['from']['last_name']
     except:
         last_name = 'not set'
-
-    first_name.encode('latin_1')
-    last_name.encode('latin_1')
+    try:
+        first_name.encode('latin_1')
+        last_name.encode('latin_1')
+    except:
+        print 'Unable to encode names'
+        first_name = 'Unable to encode'
+        last_name = 'Unable to encode'
     print '\n*-------------------------------------------------------------*\n'
     print 'chatid      : %s' % chat_id
     print 'first_name  : %s' % first_name + ' last_name : ' + last_name
