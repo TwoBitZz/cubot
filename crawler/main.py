@@ -154,7 +154,6 @@ timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 i = 0
 for items in result:
     url = urlhead + pid[i]
-    url = url.encode('latin_1')
     print url
     i = i + 1
     try:
