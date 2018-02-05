@@ -31,7 +31,8 @@ cur = db.cursor()
 # voice convertion
 
 
-def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username, date, time):
+def audiotowav(fpath, fullpath, chat_id,
+               first_name, last_name, username, date, time):
 
     # convert .ogg to .wave
     call(["ffmpeg", "-i", fullpath, "/tmp/cubot/" + fpath + ".wav"])
@@ -56,7 +57,8 @@ def audiotowav(fpath, fullpath, chat_id, first_name, last_name, username, date, 
         return(stt)
 
 
-def voice(fid, chat_id, first_name, last_name, username, date, time):
+def voice(fid, chat_id, first_name,
+          last_name, username, date, time):
     # request for file id...
     url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
@@ -85,7 +87,7 @@ def voice(fid, chat_id, first_name, last_name, username, date, time):
     wget.download(url1, fullpath)
     print 'sucessfully downloaded'
     reply = audiotowav(fpath, fullpath, chat_id,
-                       first_name, last_name, username)
+                       first_name, last_name, username, date, time)
     return(reply)
 
 
@@ -273,6 +275,7 @@ def handle(msg):
 
         reply = voice(fid, chat_id, first_name,
                       last_name, username, date, time)
+
         print 'voice text is : ' + reply
         bot.sendMessage(chat_id, reply)
 
