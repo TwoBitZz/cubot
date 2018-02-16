@@ -208,8 +208,22 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         #tokens = str(tokens)
         l = tokens.__len__() - 1
         print l
+        #tokens = str(tokens)
         print 'message : ' + str(tokens)
-        greet = 'that was Confusing \n\n Sorry! iam still a learning kid! '
+        i = 0
+        get = ""
+        while i <= l:
+            get = str(get + "%" + tokens[i] + "% ")
+            get = str(get)
+            i = i + 1
+        get = "'" + get + "'"
+        print get
+        get = "SELECT link FROM cubot.updates WHERE tags like " + get
+        get = str(get)
+        greet = cur.execute(get)
+
+        greet = str(greet)
+        print greet
         print 'Advanced request from user'
         print 'calling handler...'
     return(greet)
