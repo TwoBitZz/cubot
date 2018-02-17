@@ -199,16 +199,17 @@ def text(command, chat_id, first_name, last_name, username, date, time):
     elif command in msg4:
         greet = 'I am Fine. \n\n What about you'
     else:
+
         # msg splitting
         tokens = nltk.word_tokenize(command)
         tokens = nltk.pos_tag(tokens)
         tokens = [word for word, pos in tokens
                   if (pos == 'NN' or pos == 'NNP' or pos == 'NNS' or pos == 'NNPS')]
         tokens = [x.lower() for x in tokens]
-        #tokens = str(tokens)
+        # tokens = str(tokens)
         l = tokens.__len__() - 1
         print l
-        #tokens = str(tokens)
+        # tokens = str(tokens)
         print 'message : ' + str(tokens)
         i = 0
         get = ""
@@ -220,12 +221,13 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         print get
         get = "SELECT link FROM cubot.updates WHERE tags like " + get
         get = str(get)
-        greet = cur.execute(get)
-
-        greet = str(greet)
-        print greet
+        get = cur.execute(get)
+        print cur.fetchall()
+        # greet = str(greet[1])
+        # print greet
         print 'Advanced request from user'
         print 'calling handler...'
+        greet = " hi "
     return(greet)
 
 
@@ -234,7 +236,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    #chat_id = msg['chat']['id']
+    # chat_id = msg['chat']['id']
     datim = msg['date']
     date = datetime.datetime.fromtimestamp(
         int(datim)).strftime('%Y-%m-%d')
