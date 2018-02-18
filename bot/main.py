@@ -231,7 +231,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
-            while ind < len(sqlout):
+            while ind < len(sqlout) and ind < 10:
                 tmp = str(sqlout[ind])
                 tmp.encode('ascii', 'ignore')
                 greet = greet + '\n' + tmp
