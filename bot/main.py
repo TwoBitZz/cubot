@@ -238,7 +238,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
                 tmp = tmp.replace("u\'", "")
                 tmp = tmp.replace("\\n", "")
                 tmp = tmp.replace("\\r", "")
-                tmp = tmp.replace(")\'", "")
+                tmp = tmp.replace("\')", "")
                 tmp = tmp.replace("\'", "")
                 tmp = tmp.replace(",", "\n\n📌")
                 greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
