@@ -231,7 +231,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
-            while ind < len(sqlout) and ind < 5:
+            while ind < len(sqlout):
                 tmp = str(sqlout[ind])
                 # tmp.encode("utf-8").decode("latin_1")
                 tmp = tmp.replace("u", "")
