@@ -214,20 +214,33 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         i = 0
         get = ""
         while i <= l:
-            get = str(get + "%" + tokens[i] + "% ")
+            get = str(get + "%" + tokens[i] + "%")
             get = str(get)
             i = i + 1
         get = "'" + get + "'"
         print get
-        get = "SELECT link FROM cubot.updates WHERE tags like " + get
+        get = "SELECT text FROM cubot.updates WHERE tags like " + get
         get = str(get)
+        print get
         get = cur.execute(get)
-        print cur.fetchall()
-        # greet = str(greet[1])
-        # print greet
+        sqlout = cur.fetchall()
+        print 'found ' + str(len(sqlout)) + ' matches'
+        if (len(sqlout) > 0):
+            greet = 'Here  is what i found 👇'
+        else:
+            greet = 'Oops!, No match found 🤷🏻‍♂️'
+        try:
+            ind = 0
+            while ind < len(sqlout):
+                tmp = str(sqlout[ind])
+                tmp.encode('ascii', 'ignore')
+                greet = greet + '\n' + tmp
+                ind = ind + 1
+        except:
+            print 'An error occured'
+            greet = "Sorry!  i cannot help you with this query!"
         print 'Advanced request from user'
         print 'calling handler...'
-        greet = " hi "
     return(greet)
 
 
