@@ -217,24 +217,31 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             get = str(get + "%" + tokens[i] + "%")
             get = str(get)
             i = i + 1
-        get = "'" + get + "'"
+        get = "\'" + get + "\'"
         print get
-        get = "SELECT text FROM cubot.updates WHERE tags like " + get
+        get = "SELECT type,text,link FROM cubot.updates WHERE tags like " + get
         get = str(get)
-        print get
+
         get = cur.execute(get)
         sqlout = cur.fetchall()
         print 'found ' + str(len(sqlout)) + ' matches'
         if (len(sqlout) > 0):
-            greet = 'Here  is what i found 👇'
+            greet = 'Here  is what i found 👇\n\n'
         else:
             greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
             while ind < len(sqlout) and ind < 5:
                 tmp = str(sqlout[ind])
-                tmp.encode("utf-8").decode("ascii")
-                greet = greet + '\n' + '🎯 ' + tmp + '\n'
+                # tmp.encode("utf-8").decode("latin_1")
+                tmp = tmp.replace("u", "")
+                tmp = tmp.replace("\'", "")
+                tmp = tmp.replace("\\n", "")
+                tmp = tmp.replace("\\r", "")
+                tmp = tmp.replace("(", "")
+                tmp = tmp.replace(")", "")
+                tmp = tmp.replace(",", "\n\n📌")
+                greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
                 ind = ind + 1
         except:
             print 'An error occured'
