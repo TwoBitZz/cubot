@@ -234,11 +234,11 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             while ind < len(sqlout):
                 tmp = str(sqlout[ind])
                 # tmp.encode("utf-8").decode("latin_1")
-                tmp = tmp.replace("u", "")
-                tmp = tmp.replace("\'", "")
+                tmp = tmp.replace("(u\'", "")
+                tmp = tmp.replace("u\'", "")
                 tmp = tmp.replace("\\n", "")
                 tmp = tmp.replace("\\r", "")
-                tmp = tmp.replace("(", "")
+                tmp = tmp.replace("\'", "")
                 tmp = tmp.replace(")", "")
                 tmp = tmp.replace(",", "\n\n📌")
                 greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
