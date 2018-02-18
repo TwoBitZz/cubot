@@ -233,7 +233,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             ind = 0
             while ind < len(sqlout) and ind < 5:
                 tmp = str(sqlout[ind])
-                tmp.encode('ascii', 'ignore')
+                tmp.encode("utf-8").decode("ascii")
                 greet = greet + '\n' + '🎯 ' + tmp + '\n'
                 ind = ind + 1
         except:
