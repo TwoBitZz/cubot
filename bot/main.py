@@ -219,12 +219,31 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             i = i + 1
         get = "\'" + get + "\'"
         print get
+
         get = "SELECT type,text,link FROM cubot.updates WHERE tags like " + get
         get = str(get)
-
         get = cur.execute(get)
         sqlout = cur.fetchall()
         print 'found ' + str(len(sqlout)) + ' matches'
+
+        # this command is used - any order search
+
+        if (len(sqlout) == 0):
+            get = ""
+            i = 0
+            while i <= l:
+                get = str(get + " tags like \'%" + tokens[i] + "%\' or")
+                get = str(get)
+                i = i + 1
+
+            get = get[:get.rfind(' ')]
+
+            get = "SELECT type,text,link FROM cubot.updates WHERE" + get
+            get = str(get)
+            get = cur.execute(get)
+            sqlout = cur.fetchall()
+            print 'found ' + str(len(sqlout)) + ' matches'
+
         if (len(sqlout) > 0):
             greet = 'Here  is what i found 👇\n\n'
         else:
@@ -233,7 +252,6 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             ind = 0
             while ind < len(sqlout):
                 tmp = str(sqlout[ind])
-                # tmp.encode("utf-8").decode("latin_1")
                 tmp = tmp.replace("(u\'", "")
                 tmp = tmp.replace("u\'", "")
                 tmp = tmp.replace("\\n", "")
@@ -243,6 +261,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
                 tmp = tmp.replace(",", "\n\n📌")
                 greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
                 ind = ind + 1
+            print greet
         except:
             print 'An error occured'
             greet = "Sorry!  i cannot help you with this query!"
