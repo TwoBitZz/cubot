@@ -182,6 +182,11 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         cur.execute("INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username,date,time) VALUES (%s,%s,%s,%s,%s,%s)",
                     (chat_id, first_name, last_name, username, date, time))
         db.commit()
+    elif command == '/all':
+        get = "SELECT chatid FROM cubot.user"
+        get = str(get)
+        get = cur.execute(get)
+        sqlout = cur.fetchall()
 
     elif command == 'result' or command == 'results':
         get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
