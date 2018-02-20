@@ -184,7 +184,65 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         db.commit()
 
     elif command == 'result' or command == 'results':
+        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
+        get = str(get)
+        get = cur.execute(get)
+        sqlout = cur.fetchall()
+        print 'found ' + str(len(sqlout)) + ' matches'
+
+        if (len(sqlout) > 0):
+            greet = 'Here  is what i found 👇\n\n'
+        else:
+            greet = 'Oops!, No match found 🤷🏻‍♂️'
+        try:
+            ind = 0
+            while ind < len(sqlout):
+                tmp = str(sqlout[ind])
+                tmp = tmp.replace("(u\'", "")
+                tmp = tmp.replace("u\'", "")
+                tmp = tmp.replace("\\n", "")
+                tmp = tmp.replace("\\r", "")
+                tmp = tmp.replace("\')", "")
+                tmp = tmp.replace("\'", "")
+                tmp = tmp.replace(",", "\n\n📌")
+                greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
+                ind = ind + 1
+                print greet
+        except:
+            print 'An error occured'
+            greet = "Sorry!  i cannot help you with this query!"
+
+    elif command == 'notification' or command == 'notifications':
         get = "SELECT type,text,link FROM cubot.updates WHERE type like '%notification%'"
+        get = str(get)
+        get = cur.execute(get)
+        sqlout = cur.fetchall()
+        print 'found ' + str(len(sqlout)) + ' matches'
+
+        if (len(sqlout) > 0):
+            greet = 'Here  is what i found 👇\n\n'
+        else:
+            greet = 'Oops!, No match found 🤷🏻‍♂️'
+        try:
+            ind = 0
+            while ind < len(sqlout):
+                tmp = str(sqlout[ind])
+                tmp = tmp.replace("(u\'", "")
+                tmp = tmp.replace("u\'", "")
+                tmp = tmp.replace("\\n", "")
+                tmp = tmp.replace("\\r", "")
+                tmp = tmp.replace("\')", "")
+                tmp = tmp.replace("\'", "")
+                tmp = tmp.replace(",", "\n\n📌")
+                greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
+                ind = ind + 1
+                print greet
+        except:
+            print 'An error occured'
+            greet = "Sorry!  i cannot help you with this query!"
+
+    elif command == 'time table' or command == 'timetable':
+        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
         get = str(get)
         get = cur.execute(get)
         sqlout = cur.fetchall()
