@@ -1,7 +1,7 @@
 # -*- coding: latin-1 -*-
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
-
+ 
 import os  # do some os function
 import sys  # ^^^^
 import time  # purpose of random generating
