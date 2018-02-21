@@ -161,6 +161,11 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             'how are you?', 'how do you do?',
             'how are u?', 'how is life?', 'how do u do?']
 
+    # msg splitting
+    tokens = nltk.word_tokenize(command)
+    # tokens = str(tokens)
+    print 'message : ' + str(tokens)
+
     if command in greetings:
         idx = randint(0, reply_greetings.__len__() - 1)
         print 'selecting index ' + str(idx)
@@ -183,7 +188,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
                     (chat_id, first_name, last_name, username, date, time))
         db.commit()
 
-    elif command == '/all':
+    elif tokens[0] == '/all':
 
         get = "SELECT chatid FROM cubot.user"
         get = str(get)
@@ -191,11 +196,22 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         sqlout = cur.fetchall()
         count = len(sqlout)
 
-        if count <= 0:
-            greet = "no users found 😔"
-
-        elif count > 0:
-            print hi
+        if (len(sqlout) > 0):
+            greet = 'Here  is what i found 👇\n\n'
+        else:
+            greet = 'Oops!, No match found 🤷🏻‍♂️'
+        try:
+            ind = 0
+            while ind < len(sqlout):
+                tmp = str(sqlout[ind])
+                tmp = tmp.replace("(u", "")
+                tmp = tmp.replace(",)", "")
+                greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
+                ind = ind + 1
+            print greet
+        except:
+            print 'An error occured'
+            greet = "Sorry!  i cannot help you with this query!"
 
     elif command == 'result' or command == 'results':
         get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
