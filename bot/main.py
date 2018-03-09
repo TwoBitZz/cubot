@@ -197,21 +197,26 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         count = len(sqlout)
 
         if (len(sqlout) > 0):
-            greet = 'Here  is what i found 👇\n\n'
+            greet = ''
+            tmp = str(sqlout)
+            tmp = tmp.replace("(u", "")
+            tmp = tmp.replace(",)", ",")
+            tmp = tmp.replace("\',", "\'")
+            tmp = tmp.replace("\'", " ")
+            tmp = tmp.replace("[", " ")
+            tmp = tmp.replace("]", " ")
+            i = 0
+            while i < count - 1:
+
+                greet = greet + tmp
+                i = i + 1
+            chat_id = greet.split(',')
+            print chat_id
+            return (chat_id, command, count)
         else:
-            greet = 'Oops!, No match found 🤷🏻‍♂️'
-        try:
-            ind = 0
-            while ind < len(sqlout):
-                tmp = str(sqlout[ind])
-                tmp = tmp.replace("(u", "")
-                tmp = tmp.replace(",)", "")
-                greet = greet + '\n' + '🎯 ' + tmp + '\n\n*--------------------------*\n'
-                ind = ind + 1
-            print greet
-        except:
+            greet = 'No users found in 😔'
             print 'An error occured'
-            greet = "Sorry!  i cannot help you with this query!"
+            return(greet)
 
     elif command == 'result' or command == 'results':
         get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
@@ -241,7 +246,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         except:
             print 'An error occured'
             greet = "Sorry!  i cannot help you with this query!"
-
+        return(greet)
     elif command == 'notification' or command == 'notifications':
         get = "SELECT type,text,link FROM cubot.updates WHERE type like '%notification%'"
         get = str(get)
@@ -252,6 +257,9 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         if (len(sqlout) > 0):
             greet = 'Here  is what i found 👇\n\n'
         else:
+            i = 0
+            while i < count - 1:
+                bot.sendMessage(chat_id[i], command)
             greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
@@ -270,6 +278,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         except:
             print 'An error occured'
             greet = "Sorry!  i cannot help you with this query!"
+        return(greet)
 
     elif command == 'time table' or command == 'timetable':
         get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
@@ -299,22 +308,30 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         except:
             print 'An error occured'
             greet = "Sorry!  i cannot help you with this query!"
+        return(greet)
 
     elif command in msg2:
         idx = randint(0, reply_msg2.__len__() - 1)
         print 'selecting index ' + str(idx)
         greet = reply_msg2[idx]
+        return(greet)
 
     elif command == 'what can you do':
         greet = 'I can help you to access notifications and circulars from the website of Calicut University \n \nBelieve it or not i can download your hallticket/results for you 😁'
+        return(greet)
 
     elif command == 'what is your name':
         greet = 'I am Calicut University bot \n \n My nick name is CU_Bot 😁'
+        return(greet)
 
     elif command in msg3:
         greet = 'Well, that is a good thing to ask \n \n Team Four_BitZz developed me as their final year project, They are awesome !'
+        return(greet)
+
     elif command in msg4:
         greet = 'I am Fine. \n\n What about you'
+        return(greet)
+
     else:
 
         # msg splitting
@@ -352,6 +369,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
                 get = str(get + " tags like \'%" + tokens[i] + "%\' or")
                 get = str(get)
                 i = i + 1
+                print greet
 
             get = get[:get.rfind(' ')]
 
@@ -384,7 +402,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = "Sorry!  i cannot help you with this query!"
         print 'Advanced request from user'
         print 'calling handler...'
-    return(greet)
+        return(greet)
 
 
 # main function
@@ -428,7 +446,13 @@ def handle(msg):
         command = msg['text']
         command = text(command, chat_id, first_name,
                        last_name, username, date, time)
-        bot.sendMessage(chat_id, command)
+        print command[0]
+        print command[1]
+        print command[2]
+        i = 0
+        while i < command[2] - 1:
+            bot.sendMessage(command[0][i], command[1])
+        #bot.sendMessage(chat_id, command)
 
     elif content_type == 'sticker':
         command = msg['sticker']
