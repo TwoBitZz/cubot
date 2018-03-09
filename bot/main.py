@@ -219,7 +219,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             return(greet)
 
     elif command == 'result' or command == 'results':
-        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
+        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%' ORDER BY id DESC"
         get = str(get)
         get = cur.execute(get)
         sqlout = cur.fetchall()
@@ -231,7 +231,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
-            while ind < len(sqlout):
+            while ind < len(sqlout) and ind < 10:
                 tmp = str(sqlout[ind])
                 tmp = tmp.replace("(u\'", "")
                 tmp = tmp.replace("u\'", "")
@@ -248,7 +248,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = "Sorry!  i cannot help you with this query!"
         return(greet)
     elif command == 'notification' or command == 'notifications':
-        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%notification%'"
+        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%notification%' ORDER BY id DESC"
         get = str(get)
         get = cur.execute(get)
         sqlout = cur.fetchall()
@@ -263,7 +263,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
-            while ind < len(sqlout):
+            while ind < len(sqlout) and ind < 10:
                 tmp = str(sqlout[ind])
                 tmp = tmp.replace("(u\'", "")
                 tmp = tmp.replace("u\'", "")
@@ -281,7 +281,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         return(greet)
 
     elif command == 'time table' or command == 'timetable':
-        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%result%'"
+        get = "SELECT type,text,link FROM cubot.updates WHERE type like '%timetable%' ORDER BY id DESC"
         get = str(get)
         get = cur.execute(get)
         sqlout = cur.fetchall()
@@ -293,7 +293,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
-            while ind < len(sqlout):
+            while ind < len(sqlout) and ind < 10:
                 tmp = str(sqlout[ind])
                 tmp = tmp.replace("(u\'", "")
                 tmp = tmp.replace("u\'", "")
@@ -360,7 +360,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         sqlout = cur.fetchall()
         print 'found ' + str(len(sqlout)) + ' matches'
 
-        # this command is used - any order search
+        # this command is used - for any search
 
         if (len(sqlout) == 0):
             get = ""
@@ -374,6 +374,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             get = get[:get.rfind(' ')]
 
             get = "SELECT type,text,link FROM cubot.updates WHERE" + get
+            get = get + " ORDER BY id DESC"
             get = str(get)
             get = cur.execute(get)
             sqlout = cur.fetchall()
