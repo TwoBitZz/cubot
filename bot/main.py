@@ -455,8 +455,18 @@ def handle(msg):
             reply3 = reply3 - 1
             while i < reply3:
                 print reply1[i]
-                bot.sendMessage(reply1[i], reply2)
+                try:
+                    chat_id = reply1[i]
+                    message = reply2
+                    bot.sendMessage(chat_id, message)
+
+                except:
+                    chat_id = 379581631
+                    message = 'There was an error for a user. '
+                    bot.sendMessage(chat_id, message)
+
                 i += 1
+
         else:
             bot.sendMessage(chat_id, reply)
 
