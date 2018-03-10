@@ -206,10 +206,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             tmp = tmp.replace("[", " ")
             tmp = tmp.replace("]", " ")
             i = 0
-            while i < count - 1:
-
-                greet = greet + tmp
-                i = i + 1
+            greet = greet + tmp
             chat_id = greet.split(',')
             print chat_id
             return (chat_id, command, count)
@@ -445,15 +442,23 @@ def handle(msg):
     #---------------------------------------
     if content_type == 'text':
         command = msg['text']
-        command = text(command, chat_id, first_name,
-                       last_name, username, date, time)
-        print command[0]
-        print command[1]
-        print command[2]
-        i = 0
-        while i < command[2] - 1:
-            bot.sendMessage(command[0][i], command[1])
-        #bot.sendMessage(chat_id, command)
+        tokens = nltk.word_tokenize(command)
+        reply = text(command, chat_id, first_name,
+                     last_name, username, date, time)
+        if tokens[0] == '/all':
+            reply1 = reply[0]
+            reply2 = reply[1]
+            reply3 = reply[2]
+            print reply2
+            print reply3
+            i = 0
+            reply3 = reply3 - 1
+            while i < reply3:
+                print reply1[i]
+                bot.sendMessage(reply1[i], reply2)
+                i += 1
+        else:
+            bot.sendMessage(chat_id, reply)
 
     elif content_type == 'sticker':
         command = msg['sticker']
