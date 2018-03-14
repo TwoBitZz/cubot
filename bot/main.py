@@ -170,17 +170,20 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         idx = randint(0, reply_greetings.__len__() - 1)
         print 'selecting index ' + str(idx)
         greet = reply_greetings[idx]
+        return (greet)
 
     elif command in msg1:
         idx = randint(0, reply_msg1.__len__() - 1)
         print 'selecting index ' + str(idx)
         greet = reply_msg1[idx]
         greet = greet + first_name
+        return (greet)
 
     elif command in positive:
         idx = randint(0, reply_msg1.__len__() - 1)
         print 'selecting index ' + str(idx)
         greet = positive[idx]
+        return (greet)
 
     elif command == '/start':
         greet = 'Hello ' + first_name
@@ -366,7 +369,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
                 get = str(get + " tags like \'%" + tokens[i] + "%\' or")
                 get = str(get)
                 i = i + 1
-                print greet
+                print get
 
             get = get[:get.rfind(' ')]
 
@@ -377,10 +380,9 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             sqlout = cur.fetchall()
             print 'found ' + str(len(sqlout)) + ' matches'
 
+        greet = 'Oops!, No match found 🤷🏻‍♂️'
         if (len(sqlout) > 0):
             greet = 'Here  is what i found 👇\n\n'
-        else:
-            greet = 'Oops!, No match found 🤷🏻‍♂️'
         try:
             ind = 0
             while ind < len(sqlout):
@@ -445,6 +447,7 @@ def handle(msg):
         tokens = nltk.word_tokenize(command)
         reply = text(command, chat_id, first_name,
                      last_name, username, date, time)
+        print reply
         if tokens[0] == '/all':
             reply1 = reply[0]
             reply2 = reply[1]
@@ -455,8 +458,9 @@ def handle(msg):
             reply3 = reply3 - 1
             while i < reply3:
                 print reply1[i]
+                print reply2
                 try:
-                    chat_id = reply1[i]
+                    chat_id = int(reply1[i])
                     message = reply2
                     bot.sendMessage(chat_id, message)
 
