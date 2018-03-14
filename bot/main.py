@@ -190,6 +190,10 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         cur.execute("INSERT IGNORE INTO cubot.user(chatid,first_name,last_name,username,date,time) VALUES (%s,%s,%s,%s,%s,%s)",
                     (chat_id, first_name, last_name, username, date, time))
         db.commit()
+        return greet
+
+    elif command == '/stop':
+        print "hi"
 
     elif tokens[0] == '/all':
 
@@ -458,16 +462,16 @@ def handle(msg):
             reply3 = reply3 - 1
             while i < reply3:
                 print reply1[i]
-                print reply2
+                # try:
+                chat_id = int(reply1[i])
+                message = reply2
                 try:
-                    chat_id = int(reply1[i])
-                    message = reply2
                     bot.sendMessage(chat_id, message)
 
                 except:
-                    chat_id = 379581631
-                    message = 'There was an error for a user. '
-                    bot.sendMessage(chat_id, message)
+                    #     chat_id = 379581631
+                    message = 'There was an error for user ' + str(chat_id)
+                    bot.sendMessage(379581631, message)
 
                 i += 1
 
