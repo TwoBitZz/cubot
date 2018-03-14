@@ -196,30 +196,33 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         print "hi"
 
     elif tokens[0] == '/all':
+        if chat_id == 379581631:
+            get = "SELECT chatid FROM cubot.user"
+            get = str(get)
+            get = cur.execute(get)
+            sqlout = cur.fetchall()
+            count = len(sqlout)
 
-        get = "SELECT chatid FROM cubot.user"
-        get = str(get)
-        get = cur.execute(get)
-        sqlout = cur.fetchall()
-        count = len(sqlout)
-
-        if (len(sqlout) > 0):
-            greet = ''
-            tmp = str(sqlout)
-            tmp = tmp.replace("(u", "")
-            tmp = tmp.replace(",)", ",")
-            tmp = tmp.replace("\',", "\'")
-            tmp = tmp.replace("\'", " ")
-            tmp = tmp.replace("[", " ")
-            tmp = tmp.replace("]", " ")
-            i = 0
-            greet = greet + tmp
-            chat_id = greet.split(',')
-            print chat_id
-            return (chat_id, command, count)
+            if (len(sqlout) > 0):
+                greet = ''
+                tmp = str(sqlout)
+                tmp = tmp.replace("(u", "")
+                tmp = tmp.replace(",)", ",")
+                tmp = tmp.replace("\',", "\'")
+                tmp = tmp.replace("\'", " ")
+                tmp = tmp.replace("[", " ")
+                tmp = tmp.replace("]", " ")
+                i = 0
+                greet = greet + tmp
+                chat_id = greet.split(',')
+                print chat_id
+                return (chat_id, command, count)
+            else:
+                greet = 'No users found in 😔'
+                print 'An error occured'
+                return(greet)
         else:
-            greet = 'No users found in 😔'
-            print 'An error occured'
+            greet = 'You\'re not an admin, so u can\'t use \'/all\' command 😔'
             return(greet)
 
     elif command == 'result' or command == 'results':
@@ -453,27 +456,30 @@ def handle(msg):
                      last_name, username, date, time)
         print reply
         if tokens[0] == '/all':
-            reply1 = reply[0]
-            reply2 = reply[1]
-            reply3 = reply[2]
-            print reply2
-            print reply3
-            i = 0
-            reply3 = reply3 - 1
-            while i < reply3:
-                print reply1[i]
-                # try:
-                chat_id = int(reply1[i])
-                message = reply2
-                try:
-                    bot.sendMessage(chat_id, message)
+            if chat_id == 379581631:
+                reply1 = reply[0]
+                reply2 = reply[1]
+                reply3 = reply[2]
+                print reply2
+                print reply3
+                i = 0
+                reply3 = reply3 - 1
+                while i < reply3:
+                    print reply1[i]
+                    # try:
+                    chat_id = int(reply1[i])
+                    message = reply2
+                    try:
+                        bot.sendMessage(chat_id, message)
 
-                except:
-                    #     chat_id = 379581631
-                    message = 'There was an error for user ' + str(chat_id)
-                    bot.sendMessage(379581631, message)
+                    except:
+                        #     chat_id = 379581631
+                        message = 'There was an error for user ' + str(chat_id)
+                        bot.sendMessage(379581631, message)
 
-                i += 1
+                    i += 1
+            else:
+                bot.sendMessage(chat_id, reply)
 
         else:
             bot.sendMessage(chat_id, reply)
