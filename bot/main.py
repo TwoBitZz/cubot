@@ -28,9 +28,20 @@ db = mysqldb.connect(user="root", password="", database="cubot")
 # create a cursor for the select
 cur = db.cursor()
 
+# get user id WHERE status=ADMIN
+getid = "SELECT chatid FROM cubot.user WHERE status ='admin'"
+getid = str(getid)
+getid = cur.execute(getid)
+pickid = cur.fetchall()
+uid = ''
+tmp = str(pickid)
+tmp = tmp.replace("(u", "")
+tmp = tmp.replace(",),", ",")
+tmp = tmp.replace(",)", "")
+uid = uid + tmp
+
+
 # voice convertion
-
-
 def audiotowav(fpath, fullpath, chat_id,
                first_name, last_name, username, date, time):
 
@@ -192,11 +203,34 @@ def text(command, chat_id, first_name, last_name, username, date, time):
         db.commit()
         return greet
 
-    elif command == '/stop':
-        print "hi"
+    elif tokens[0] == '/add':
+        getid = "SELECT chatid FROM cubot.admin "
+        getid = str(getid)
+        getid = cur.execute(getid)
+        pickid = cur.fetchall()
+        uid1 = ''
+        tmp = str(pickid)
+        tmp = tmp.replace("(u", "")
+        tmp = tmp.replace(",),", ",")
+        tmp = tmp.replace(",)", "")
+        tmp = tmp.replace("\'", "")
+        tmp = tmp.replace("[", "")
+        tmp = tmp.replace("]", "")
+        uid1 = uid1 + tmp
+        print uid1
+        if str(chat_id) == str(uid1):
+            tokens = str(tokens[1])
+            cur.execute(
+                "UPDATE cubot.user SET status = %s WHERE chatid = %s", ('admin', tokens))
+            db.commit()
+            greet = 'change the required user privilege'
+        else:
+            greet = 'if you\'re not an admin then you can\'t use this command'
+        return greet
 
     elif tokens[0] == '/all':
-        if chat_id == 379581631:
+        chat_id = str(chat_id)
+        if chat_id in uid:
             get = "SELECT chatid FROM cubot.user"
             get = str(get)
             get = cur.execute(get)
@@ -254,6 +288,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             print 'An error occured'
             greet = "Sorry!  i cannot help you with this query!"
         return(greet)
+
     elif command == 'notification' or command == 'notifications':
         get = "SELECT type,text,link FROM cubot.updates WHERE type like '%notification%' ORDER BY id DESC"
         get = str(get)
@@ -380,7 +415,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
 
             get = get[:get.rfind(' ')]
 
-            get = "SELECT type,text,link FROM cubot.updates WHERE" + get
+            get = "SELECT type,text,link FROM cubot.updates WHERE" + get + " ORDER BY id DESC"
             get = get + " ORDER BY id DESC"
             get = str(get)
             get = cur.execute(get)
@@ -392,7 +427,7 @@ def text(command, chat_id, first_name, last_name, username, date, time):
             greet = 'Here  is what i found 👇\n\n'
         try:
             ind = 0
-            while ind < len(sqlout):
+            while ind < len(sqlout) and ind < 10:
                 tmp = str(sqlout[ind])
                 tmp = tmp.replace("(u\'", "")
                 tmp = tmp.replace("u\'", "")
@@ -456,7 +491,8 @@ def handle(msg):
                      last_name, username, date, time)
         print reply
         if tokens[0] == '/all':
-            if chat_id == 379581631:
+            chat_id = str(chat_id)
+            if chat_id in uid:
                 reply1 = reply[0]
                 reply2 = reply[1]
                 reply3 = reply[2]
@@ -474,13 +510,13 @@ def handle(msg):
 
                     except:
                         #     chat_id = 379581631
+
                         message = 'There was an error for user ' + str(chat_id)
                         bot.sendMessage(379581631, message)
 
                     i += 1
             else:
                 bot.sendMessage(chat_id, reply)
-
         else:
             bot.sendMessage(chat_id, reply)
 
@@ -516,7 +552,7 @@ def handle(msg):
 
     elif content_type == 'video_note':
         command = msg['video_note']
-        bot.sendMessage(chat_id, 'you are awesome 😘')
+        bot.sendMessage(chat_id,  'you are awesome 😘')
 
     elif content_type == 'audio':
         command = msg['audio']
