@@ -182,7 +182,7 @@ while(1):
     db.commit()
     cur.execute("DELETE FROM cubot.updates WHERE text='>>Next'")
     db.commit()
-
+    print 'Fetching compleated'
     # close the cursor
     cur.close()
     # close the connection

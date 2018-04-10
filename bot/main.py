@@ -202,6 +202,8 @@ def text(command, chat_id, first_name, last_name, username, date, time):
                     (chat_id, first_name, last_name, username, date, time))
         db.commit()
         return greet
+    elif tokens[0] == '/admin':
+        return (command)
 
     elif tokens[0] == '/add':
         getid = "SELECT chatid FROM cubot.admin "
@@ -517,6 +519,11 @@ def handle(msg):
                     i += 1
             else:
                 bot.sendMessage(chat_id, reply)
+
+        elif tokens[0] == '/admin':
+            reply = 'The User : ' + str(chat_id) + 'sent a message \n' + reply
+            bot.sendMessage(379581631, reply)
+
         else:
             bot.sendMessage(chat_id, reply)
 
