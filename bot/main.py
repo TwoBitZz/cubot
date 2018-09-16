@@ -71,7 +71,7 @@ def audiotowav(fpath, fullpath, chat_id,
 def voice(fid, chat_id, first_name,
           last_name, username, date, time):
     # request for file id...
-    url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
+    url = 'https://api.telegram.org/botAPI/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
 
     # request for file path
@@ -94,7 +94,7 @@ def voice(fid, chat_id, first_name,
         os.makedirs(dir)
 
     # download voice
-    url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
+    url1 = 'https://api.telegram.org/file/botApi' + fpath
     wget.download(url1, fullpath)
     print 'sucessfully downloaded'
     reply = audiotowav(fpath, fullpath, chat_id,
@@ -104,7 +104,7 @@ def voice(fid, chat_id, first_name,
 
 def audio(fid, chat_id, first_name, last_name, username, date, time):
     # request for file id...
-    url = 'https://api.telegram.org/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/getFile?file_id=' + fid
+    url = 'https://api.telegram.org/botAPI/getFile?file_id=' + fid
     wget.download(url, '/tmp/temp.html')
 
     # request for file path
@@ -126,7 +126,7 @@ def audio(fid, chat_id, first_name, last_name, username, date, time):
         os.makedirs(dir)
 
     # download voice
-    url1 = 'https://api.telegram.org/file/bot351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA/' + fpath
+    url1 = 'https://api.telegram.org/file/botAPI/' + fpath
     wget.download(url1, fullpath)
     print 'sucessfully downloaded'
     reply = audiotowav(fpath, fullpath, chat_id,
@@ -514,7 +514,7 @@ def handle(msg):
                         #     chat_id = 379581631
 
                         message = 'There was an error for user ' + str(chat_id)
-                        bot.sendMessage(379581631, message)
+                        bot.sendMessage(USER ChatID, message)
 
                     i += 1
             else:
@@ -522,7 +522,7 @@ def handle(msg):
 
         elif tokens[0] == '/admin':
             reply = 'The User : ' + str(chat_id) + 'sent a message \n' + reply
-            bot.sendMessage(379581631, reply)
+            bot.sendMessage(USER ChatID, reply)
 
         else:
             bot.sendMessage(chat_id, reply)
@@ -582,7 +582,7 @@ def handle(msg):
     print 'Got command : %s' % command
 
 
-bot = telepot.Bot('351057354:AAFk5gALlI2AqCqcCh4EAwR35BzSs1Kq8bA')
+bot = telepot.Bot('API KEY')
 MessageLoop(bot, handle).run_as_thread()
 
 
